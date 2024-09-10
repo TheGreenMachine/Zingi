@@ -1,0 +1,24 @@
+# Java / IntelliJ / Gradle
+venv
+.idea
+.run
+build
+.gradle
+bin/
+Compiler
+# FRC
+networktables.json
+shuffleboard_config.json
+simgui-ds.json
+simgui-window.json
+ctre_sim
+# Logs
+*.bag
+*.wpilog
+*.hoot
+# Mac
+*.DS_Store
+# Crash logs
+*.log
+# Heap dump log
+*.hprof
