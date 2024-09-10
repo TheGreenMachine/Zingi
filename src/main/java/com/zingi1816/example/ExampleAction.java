@@ -1,7 +1,7 @@
 package com.zingi1816.example;
 
-import com.team1816.lib.Injector;
-import com.team1816.lib.auto.actions.AutoAction;
+import com.zingi1816.lib.Injector;
+import com.zingi1816.lib.auto.actions.AutoAction;
 
 public class ExampleAction implements AutoAction {
     /**

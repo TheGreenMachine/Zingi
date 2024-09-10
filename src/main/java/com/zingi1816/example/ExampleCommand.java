@@ -1,7 +1,7 @@
 package com.zingi1816.example;
 
-import com.team1816.lib.auto.AutoModeEndedException;
-import com.team1816.lib.auto.commands.AutoCommand;
+import com.zingi1816.lib.auto.AutoModeEndedException;
+import com.zingi1816.lib.auto.commands.AutoCommand;
 
 /**
  * An auto command works almost like an auto mode.

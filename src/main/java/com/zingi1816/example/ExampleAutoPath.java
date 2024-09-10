@@ -1,6 +1,6 @@
 package com.zingi1816.example;
 
-import com.team1816.lib.auto.paths.AutoPath;
+import com.zingi1816.lib.auto.paths.AutoPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 

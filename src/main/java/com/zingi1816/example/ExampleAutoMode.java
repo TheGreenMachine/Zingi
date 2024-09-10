@@ -1,12 +1,12 @@
 package com.zingi1816.example;
 
-import com.team1816.lib.auto.AutoModeEndedException;
-import com.team1816.lib.auto.Color;
-import com.team1816.lib.auto.actions.SeriesAction;
-import com.team1816.lib.auto.actions.TrajectoryAction;
-import com.team1816.lib.auto.actions.WaitAction;
-import com.team1816.lib.auto.modes.AutoMode;
-import com.team1816.lib.util.logUtil.GreenLogger;
+import com.zingi1816.lib.auto.AutoModeEndedException;
+import com.zingi1816.lib.auto.Color;
+import com.zingi1816.lib.auto.actions.SeriesAction;
+import com.zingi1816.lib.auto.actions.TrajectoryAction;
+import com.zingi1816.lib.auto.actions.WaitAction;
+import com.zingi1816.lib.auto.modes.AutoMode;
+import com.zingi1816.lib.util.logUtil.GreenLogger;
 
 import java.util.List;
 
