@@ -15,14 +15,10 @@ import com.team1816.lib.subsystems.drive.Drive;
 import com.team1816.lib.subsystems.vision.Camera;
 import com.team1816.lib.util.Util;
 import com.team1816.lib.util.logUtil.GreenLogger;
-import com.team1816.lib.variableInputs.VariableInput;
 import com.team1816.season.auto.AutoModeManager;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.states.Orchestrator;
 import com.team1816.season.states.RobotState;
-import com.team1816.season.subsystems.Climber;
-import com.team1816.season.subsystems.Shooter;
-import com.team1816.season.subsystems.Collector;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.*;
@@ -65,11 +61,8 @@ public class Robot extends TimedRobot {
      */
     private Drive drive;
 
-    private Collector collector;
     private LedManager ledManager;
     private Camera camera;
-    private Shooter shooter;
-    private Climber climber;
 
     /**
      * Factory
@@ -173,9 +166,6 @@ public class Robot extends TimedRobot {
             subsystemManager = Injector.get(SubsystemLooper.class);
             autoModeManager = Injector.get(AutoModeManager.class);
             playlistManager = Injector.get(PlaylistManager.class);
-            shooter = Injector.get(Shooter.class);
-            collector = Injector.get(Collector.class);
-            climber = Injector.get(Climber.class);
 
             /** Logging */
             if (Constants.kLoggingRobot) {
@@ -217,7 +207,7 @@ public class Robot extends TimedRobot {
 
             drive = (Injector.get(Drive.Factory.class)).getInstance();
 
-            subsystemManager.setSubsystems(drive, ledManager, camera, collector, shooter, climber);
+            subsystemManager.setSubsystems(drive, ledManager, camera);
 
             subsystemManager.registerEnabledLoops(enabledLoop);
             subsystemManager.registerDisabledLoops(disabledLoop);
@@ -308,108 +298,6 @@ public class Robot extends TimedRobot {
                     }
             );
 
-            /** Operator Commands */
-            inputHandler.listenAction(
-                    "revSpeaker",
-                    ActionState.PRESSED,
-                    () -> {
-                        shooter.setDesiredRollerState(Shooter.ROLLER_STATE.SHOOT_SPEAKER);
-                    }
-            );
-            inputHandler.listenActionPressAndRelease(
-                    "shoot",
-                    (pressed) -> {
-                        robotState.isShooting = pressed;
-                        if (pressed) {
-                            if (shooter.getDesiredPivotState() == Shooter.PIVOT_STATE.SHOOT_AMP) {
-                                shooter.setDesiredState(Shooter.ROLLER_STATE.SHOOT_AMP, Shooter.FEEDER_STATE.SHOOT);
-                            } else if (shooter.getDesiredPivotState() == Shooter.PIVOT_STATE.AUTO_AIM) {
-                                shooter.setDesiredState(Shooter.ROLLER_STATE.SHOOT_DISTANCE, Shooter.FEEDER_STATE.SHOOT);
-                            } else {
-                                shooter.setDesiredState(Shooter.ROLLER_STATE.SHOOT_SPEAKER, Shooter.FEEDER_STATE.SHOOT);
-                            }
-                        }
-                        else {
-                            shooter.setDesiredState(Shooter.ROLLER_STATE.STOP, Shooter.FEEDER_STATE.STOP, Shooter.PIVOT_STATE.STOW);
-                        }
-                    }
-            );
-            inputHandler.listenAction(
-                    "ampPivot",
-                    ActionState.PRESSED,
-                    () -> {
-                        if (shooter.getDesiredPivotState() == Shooter.PIVOT_STATE.STOW) {
-                            shooter.setDesiredPivotState(Shooter.PIVOT_STATE.SHOOT_AMP);
-                        }
-                        else {
-                            shooter.setDesiredPivotState(Shooter.PIVOT_STATE.STOW);
-                        }
-
-                        GreenLogger.log("Changing pivot to: " + shooter.getDesiredPivotState());
-                    }
-            );
-            inputHandler.listenAction(
-                    "shootPivot",
-                    ActionState.PRESSED,
-                    () -> {
-                        if(shooter.getDesiredPivotState() == Shooter.PIVOT_STATE.AUTO_AIM)
-                            shooter.setDesiredPivotState(Shooter.PIVOT_STATE.STOW);
-                        else
-                            shooter.setDesiredPivotState(Shooter.PIVOT_STATE.AUTO_AIM);
-                        GreenLogger.log("Changing pivot to: " + shooter.getDesiredPivotState());
-                    }
-            );
-
-            inputHandler.listenAction(
-                    "stopShooter",
-                    ActionState.PRESSED,
-                    () -> {
-                        shooter.stop();
-                    }
-            );
-            inputHandler.listenActionPressAndRelease(
-                    "collectorOuttake",
-                    (pressed) -> {
-                        if (!shooter.isBeamBreakTriggered()) {
-                            collector.setDesiredState(pressed ? Collector.COLLECTOR_STATE.OUTTAKE : Collector.COLLECTOR_STATE.INTAKE);
-                        }
-                    }
-            );
-            inputHandler.listenActionPressAndRelease(
-                    "climbSlow",
-                    (pressed) -> {
-                        climber.setDesiredState(pressed ? Climber.CLIMBER_STATE.CLIMB_SLOW : Climber.CLIMBER_STATE.STOP);
-                    }
-            );
-            inputHandler.listenActionPressAndRelease(
-                    "climbFast",
-                    (pressed) -> {
-                        climber.setDesiredState(pressed ? Climber.CLIMBER_STATE.CLIMB_FAST : Climber.CLIMBER_STATE.STOP);
-                    }
-            );
-
-            inputHandler.listenAction(
-                    "climbPosition",
-                    ActionState.PRESSED,
-                    () -> {
-                        climber.setDesiredState(Climber.CLIMBER_STATE.PRECISE_TOP);
-                    }
-            );
-
-            //Buttonboard commands
-            inputHandler.listenActionPressAndRelease(
-                    "reSpool",
-                    (pressed) -> {
-                        climber.setDesiredState(pressed ? Climber.CLIMBER_STATE.RE_SPOOL : Climber.CLIMBER_STATE.STOP);
-                    }
-            );
-
-            inputHandler.listenAction(
-                    "zeroClimber",
-                    ActionState.PRESSED,
-                    climber::zeroSensors
-            );
-
             //Not yet assigned
             inputHandler.listenAction(
                     "toggleOverride",
@@ -421,36 +309,10 @@ public class Robot extends TimedRobot {
             );
 
             inputHandler.listenActionPressAndRelease(
-                    "manualFeedingTransfer",
-                    (pressed) -> {
-                        shooter.setDesiredFeederState(pressed ? Shooter.FEEDER_STATE.MANUAL_TRANSFER : Shooter.FEEDER_STATE.STOP);
-                    }
-            );
-
-            inputHandler.listenActionPressAndRelease(
                     "rotateToPoint",
                     drive::setRotatingClosedLoop
             );
-
-            inputHandler.listenActionPressAndRelease(
-                    "SpeakerRev",
-                    (pressed) -> {
-                        if (!robotState.isShooting) {
-                           shooter.setDesiredRollerState(pressed ? Shooter.ROLLER_STATE.SHOOT_SPEAKER : Shooter.ROLLER_STATE.STOP);
-                        }
-                    }
-            );
-
-            inputHandler.listenActionPressAndRelease(
-                    "ShuttleRev",
-                    (pressed) -> {
-                        if (!robotState.isShooting) {
-                            //REPLACE WITH SHUTTLE TODO TODO TODO
-                            shooter.setDesiredRollerState(pressed ? Shooter.ROLLER_STATE.SHOOT_SPEAKER : Shooter.ROLLER_STATE.STOP);
-                        }
-                    }
-            );
-
+            
             SmartDashboard.putString("Git Hash", Constants.kGitHash);
 
         } catch (Throwable t) {
@@ -500,12 +362,7 @@ public class Robot extends TimedRobot {
         ledManager.indicateStatus(LedManager.RobotStatus.AUTONOMOUS);
 
         drive.zeroSensors(autoModeManager.getSelectedAuto().getInitialPose());
-//        shooter.zeroMotor();
-
-        shooter.setDesiredState(Shooter.ROLLER_STATE.STOP, Shooter.FEEDER_STATE.STOP, Shooter.PIVOT_STATE.STOW);
-        collector.setDesiredState(Collector.COLLECTOR_STATE.STOP);
-        climber.setDesiredState(Climber.CLIMBER_STATE.STOP);
-
+        
         drive.setControlState(Drive.ControlState.TRAJECTORY_FOLLOWING);
         autoModeManager.startAuto();
 
@@ -704,18 +561,10 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         try {
-
-            if (Constants.kUseVision) {
-                if (robotState.currentCamFind && robotState.actualPivotState != Shooter.PIVOT_STATE.AUTO_AIM) {
-                    orchestrator.updatePoseWithVisionData();
-                }
-            }
-
             if(Constants.kLoggingRobot) {
                 GreenLogger.updatePeriodicLogs();
             }
-
-
+            
             manualControl();
         } catch (Throwable t) {
             faulted = true;
@@ -738,8 +587,6 @@ public class Robot extends TimedRobot {
                     -inputHandler.getActionAsDouble("rotation")
             );
         }
-
-        orchestrator.autoSetCollectorState();
     }
 
     /**

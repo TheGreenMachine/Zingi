@@ -39,10 +39,6 @@ public class Orchestrator {
      * Subsystems
      */
     private static Drive drive;
-    private static Camera camera;
-    private static LedManager ledManager;
-    private static Collector collector;
-    private static Shooter shooter;
     private InputHandler inputHandler;
 
     /**
@@ -74,10 +70,6 @@ public class Orchestrator {
          */
 
         drive = df.getInstance();
-        camera = cam;
-        ledManager = led;
-        collector = Injector.get(Collector.class);
-        shooter = Injector.get(Shooter.class);
         inputHandler = Injector.get(InputHandler.class);
     }
 
@@ -205,36 +197,6 @@ public class Orchestrator {
         Translation2d targetTranslation = target.getBestCameraToTarget().getTranslation().toTranslation2d();
         Transform2d targetTransform = new Transform2d(targetTranslation, robotState.getLatestFieldToCamera());
         return PhotonUtils.estimateFieldToCamera(targetTransform, targetPos);
-    }
-
-    /**
-     *Theoretically updates the robot pose, returns true if updated, returns false if the camera couldn't find anything
-     * @return
-     */
-    public void updatePoseWithVisionData() {
-        //We'll want a toggle for wether or not this method is called every loop, and then a separate call to it for autoaim eventually
-        //Kinda issue, idk what std dev we are supposed to use
-        if (robotState.currentCamFind) {
-            drive.updateOdometryWithVision(
-                    robotState.currentVisionEstimatedPose.estimatedPose.toPose2d(),
-                    robotState.currentVisionEstimatedPose.timestampSeconds,
-                    camera.getEstimationStdDevs(robotState.currentVisionEstimatedPose.estimatedPose.toPose2d())
-            );
-        }
-    }
-
-    public void autoSetCollectorState(){
-        if (robotState.isBeamBreakOverridden) {
-            collector.setDesiredState(Collector.COLLECTOR_STATE.INTAKE);
-        } else if (!robotState.isShooting) {
-            if (!robotState.isBeamBreakTriggered && shooter.getActualPivotPosition() < 3) {
-                collector.setDesiredState(Collector.COLLECTOR_STATE.INTAKE);
-                shooter.setDesiredFeederState(Shooter.FEEDER_STATE.TRANSFER);
-            } else {
-                collector.setDesiredState(Collector.COLLECTOR_STATE.OUTTAKE);
-                shooter.setDesiredFeederState(Shooter.FEEDER_STATE.STOP);
-            }
-        }
     }
 
     //Just a wrapper to keep paradigm
