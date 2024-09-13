@@ -20,7 +20,6 @@ import com.team1816.lib.util.driveUtil.DriveConversions;
 import com.team1816.lib.util.logUtil.GreenLogger;
 import com.team1816.lib.util.team254.DriveSignal;
 import com.team1816.season.Robot;
-import com.team1816.season.autoaim.AutoAimUtil;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.states.RobotState;
 import edu.wpi.first.math.MathUtil;
@@ -32,8 +31,6 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.datalog.DoubleArrayLogEntry;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
@@ -582,20 +579,7 @@ public class CTRESwerveDrive extends Drive implements EnhancedSwerveDrive {
     public SwerveDriveKinematics getKinematics() {
         return swerveKinematics;
     }
-
-    @Override
-    public void rotationPeriodic() {
-        if (thetaController.atGoal()) {
-            setRotatingClosedLoop(false);
-        } else {
-            Translation2d distanceToTarget = new Translation2d(robotState.allianceColor == Color.BLUE ? Constants.blueSpeakerX : Constants.redSpeakerX, Constants.speakerY).minus(robotState.fieldToVehicle.getTranslation());
-
-            double rotationalSpeed = thetaController.calculate(robotState.fieldToVehicle.getRotation().getRadians(), AutoAimUtil.getRobotRotation(distanceToTarget) + Math.PI);
-
-            setModuleStates(swerveKinematics.toSwerveModuleStates(new ChassisSpeeds(0, 0, rotationalSpeed)));
-        }
-    }
-
+    
     private enum SPEED_MODE {
         NORMAL(normalDriveScalar, 1),
         SLOW(slowDriveScalar, slowRotationScalar),

@@ -7,9 +7,6 @@ import com.team1816.lib.subsystems.drive.SwerveDrive;
 import com.team1816.lib.util.visionUtil.VisionPoint;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.configuration.FieldConfig;
-import com.team1816.season.subsystems.Climber;
-import com.team1816.season.subsystems.Shooter;
-import com.team1816.season.subsystems.Collector;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -98,17 +95,9 @@ public class RobotState {
     /**
      * Orchestrator states
      */
-
-    public Collector.COLLECTOR_STATE actualCollectorState = Collector.COLLECTOR_STATE.STOP;
-
-    public Shooter.ROLLER_STATE actualRollerState = Shooter.ROLLER_STATE.STOP;
-    public Shooter.FEEDER_STATE actualFeederState = Shooter.FEEDER_STATE.STOP;
-    public Shooter.PIVOT_STATE actualPivotState = Shooter.PIVOT_STATE.STOW;
     public boolean isShooting = false;
     public boolean isBeamBreakTriggered = false;
     public boolean isBeamBreakOverridden = false;
-
-    public Climber.CLIMBER_STATE actualClimberState = Climber.CLIMBER_STATE.STOP;
 
     public VisionPoint superlativeTarget = new VisionPoint();
     public List<VisionPoint> visibleTargets = new ArrayList<>();
@@ -199,13 +188,6 @@ public class RobotState {
         deltaVehicle = new ChassisSpeeds();
         calculatedVehicleAccel = new ChassisSpeeds();
         triAxialAcceleration = new Double[]{0d, 0d, 0d};
-
-        // TODO: Insert any state set up here.
-        actualPivotState = Shooter.PIVOT_STATE.STOW;
-        actualCollectorState = Collector.COLLECTOR_STATE.STOP;
-        actualFeederState = Shooter.FEEDER_STATE.STOP;
-        actualRollerState = Shooter.ROLLER_STATE.STOP;
-        actualClimberState = Climber.CLIMBER_STATE.STOP;
 
         snapDirection = SnappingDirection.NO_SNAP;
 

@@ -15,7 +15,6 @@ import com.team1816.lib.subsystems.drive.Drive;
 import com.team1816.lib.subsystems.vision.Camera;
 import com.team1816.lib.util.Util;
 import com.team1816.lib.util.logUtil.GreenLogger;
-import com.team1816.season.auto.AutoModeManager;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.states.Orchestrator;
 import com.team1816.season.states.RobotState;
@@ -68,12 +67,7 @@ public class Robot extends TimedRobot {
      * Factory
      */
     private static RobotFactory factory;
-
-    /**
-     * Autonomous
-     */
-    private AutoModeManager autoModeManager;
-
+    
     private Thread autoTargetAlignThread;
 
     /**
@@ -164,7 +158,6 @@ public class Robot extends TimedRobot {
             orchestrator = Injector.get(Orchestrator.class);
             infrastructure = Injector.get(Infrastructure.class);
             subsystemManager = Injector.get(SubsystemLooper.class);
-            autoModeManager = Injector.get(AutoModeManager.class);
             playlistManager = Injector.get(PlaylistManager.class);
 
             /** Logging */
@@ -331,13 +324,8 @@ public class Robot extends TimedRobot {
 
             enabledLoop.stop();
             // Stop any running autos
-            autoModeManager.stopAuto();
             ledManager.setDefaultStatus(LedManager.RobotStatus.DISABLED);
             ledManager.writeToHardware();
-
-            if (autoModeManager.getSelectedAuto() == null) {
-                autoModeManager.reset();
-            }
 
             subsystemManager.stop();
 
@@ -356,18 +344,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-        disabledLoop.stop();
-        orchestrator.stopSong();
-        ledManager.setDefaultStatus(LedManager.RobotStatus.AUTONOMOUS);
-        ledManager.indicateStatus(LedManager.RobotStatus.AUTONOMOUS);
-
-        drive.zeroSensors(autoModeManager.getSelectedAuto().getInitialPose());
-        
-        drive.setControlState(Drive.ControlState.TRAJECTORY_FOLLOWING);
-        autoModeManager.startAuto();
-
-        autoStart = Timer.getFPGATimestamp();
-        enabledLoop.start();
+        GreenLogger.log("WHHY AREYOU USING AUTOS");
     }
 
 
@@ -458,7 +435,6 @@ public class Robot extends TimedRobot {
 
             subsystemManager.outputToSmartDashboard(); // update shuffleboard for subsystem values
             robotState.outputToSmartDashboard(); // update robot state on field for Field2D widget
-            autoModeManager.outputToSmartDashboard(); // update shuffleboard selected auto mode
             playlistManager.outputToSmartDashboard(); // update shuffleboard selected song
 
             double activeRumble = robotState.readyToShoot ? 0.9 : 0.7;
@@ -516,16 +492,7 @@ public class Robot extends TimedRobot {
 //                    ledManager.writeToHardware();
 //                }
             }
-
-            // Periodically check if drivers changed desired auto - if yes, then update the robot's position on the field
-            if (autoModeManager.update()) {
-                drive.zeroSensors(autoModeManager.getSelectedAuto().getInitialPose());
-                robotState.field
-                        .getObject("Trajectory")
-                        .setTrajectory(
-                                autoModeManager.getSelectedAuto().getCurrentTrajectory()
-                        );
-            }
+            
 
             if (drive.isDemoMode()) { // Demo-mode
                 drive.update();
@@ -545,14 +512,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        robotState.field
-                .getObject("Trajectory")
-                .setTrajectory(autoModeManager.getSelectedAuto().getCurrentTrajectory());
-
-        if(Constants.kLoggingRobot) {
-            GreenLogger.updatePeriodicLogs();
-        }
-
+        GreenLogger.log("WHY AREYOU AUTPOING");
     }
 
     /**
@@ -579,7 +539,7 @@ public class Robot extends TimedRobot {
         inputHandler.update();
 
         if (robotState.rotatingClosedLoop) {
-            drive.rotationPeriodic();
+            GreenLogger.log("You weren't supposed to put the robot state on a rotating closed loop. I hope that this meessage doesn't break the code.");
         } else {
             drive.setTeleopInputs(
                     -inputHandler.getActionAsDouble("throttle"),
