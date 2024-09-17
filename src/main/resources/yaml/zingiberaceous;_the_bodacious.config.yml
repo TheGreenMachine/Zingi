@@ -5,6 +5,17 @@ subsystems:
     falcons:
       BLAz: 7
       FRAz: 6
+    motors:
+      BLAz:
+        motorType: TalonFX
+        motorName: BLAz
+        id: 7
+        invertMotor: false
+      FRAz:
+        motorType: TalonFX
+        motorName: FRAz
+        id: 6
+        invertMotor: true
     canCoders:
       FLEnc: 9 #TODO check values
       FREnc: 12
