@@ -22,15 +22,9 @@ subsystems:
       RLEnc: 17
       RREnc: 16
     invertMotor:
-      - FLAz
       - FRAz
-      - RLAz
-      - RRAz
-      - FRDr
-      - RRDr
     invertCanCoder:
       - FREnc
-      - BREnc
     swerveModules:
       modules:
         frontLeft:
