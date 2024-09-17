@@ -350,10 +350,11 @@ public class MotorFactory {
     }
 
     public static AudioConfigs getAudioConfigs() { // No parameters because it's only needed for the CTRE Drivetrain
-        return new AudioConfigs()
-                .withBeepOnConfig(Constants.kSoundOnConfig)
-                .withBeepOnBoot(Constants.kSoundOnConfig)
-                .withAllowMusicDurDisable(Constants.kMusicEnabled);
+//        return new AudioConfigs()
+//                .withBeepOnConfig(Constants.kSoundOnConfig)
+//                .withBeepOnBoot(Constants.kSoundOnConfig)
+//                .withAllowMusicDurDisable(Constants.kMusicEnabled);
+        return new AudioConfigs();
     }
 
     private static SlotConfiguration toSlotConfiguration (

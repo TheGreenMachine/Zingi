@@ -488,10 +488,10 @@ public class LazyTalonFX extends TalonFX implements IGreenMotor {
     @Override
     public void restore_FactoryDefaults(int timeoutMs) {
         configs = new TalonFXConfiguration();
-        configs.Audio
-                .withBeepOnConfig(Constants.kSoundOnConfig)
-                .withBeepOnBoot(Constants.kSoundOnConfig)
-                .withAllowMusicDurDisable(Constants.kMusicEnabled);
+//        configs.Audio
+//                .withBeepOnConfig(Constants.kSoundOnConfig)
+//                .withBeepOnBoot(Constants.kSoundOnConfig)
+//                .withAllowMusicDurDisable(Constants.kMusicEnabled);
         configurator.apply(configs);
     }
 

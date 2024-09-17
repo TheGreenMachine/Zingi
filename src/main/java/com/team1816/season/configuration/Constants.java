@@ -129,8 +129,8 @@ public class Constants {
 
     public static double kClosedLoopRotationTolerance = factory.getConstant("rotationToleranceClosedLoop", 1);
 
-    public static final boolean kSoundOnConfig = factory.getConstant("soundOnConfig", 1) > 0;
-    public static final boolean kMusicEnabled = factory.getConstant("enableMusic", 0) > 0;
+//    public static final boolean kSoundOnConfig = factory.getConstant("soundOnConfig", 1) > 0;
+//    public static final boolean kMusicEnabled = factory.getConstant("enableMusic", 0) > 0;
 
 
     /**
@@ -143,13 +143,13 @@ public class Constants {
     public static final boolean kLoggingRobot = factory.getConstant("logRobot", 1) > 0;
     public static final boolean kLoggingDrivetrain = factory.getConstant("logDrivetrain", 1) > 0 && kLoggingRobot;
 
-    public static final double kBallEjectionDuration = factory.getConstant(
-        "shooter",
-        "ballEjectionDuration",
-        1d,
-            false
-    );
-    public static final boolean kUseVision = factory.getConstant("usingVision", 0) > 0;
+//    public static final double kBallEjectionDuration = factory.getConstant(
+//        "shooter",
+//        "ballEjectionDuration",
+//        1d,
+//            false
+//    );
+//    public static final boolean kUseVision = factory.getConstant("usingVision", 0) > 0;
 
     /**
      * Balancing characterization

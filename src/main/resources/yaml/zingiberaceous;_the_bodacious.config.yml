@@ -3,14 +3,8 @@ subsystems:
   drivetrain:
     implemented: true
     falcons:
-      FLDr: 7
-      FRDr: 10 #1
-      RLDr: 18 #13
-      RRDr: 15
-      FLAz: 8
-      FRAz: 11
-      RLAz: 19
-      RRAz: 14
+      BLAz: 7
+      FRAz: 6
     canCoders:
       FLEnc: 9 #TODO check values
       FREnc: 12
@@ -42,24 +36,10 @@ subsystems:
           constants:
             encoderOffset: -1715
             invertSensorPhase: 1
-        backLeft:
-          drive: RLDr
-          azimuth: RLAz
-          canCoder: RLEnc
-          constants:
-            encoderOffset: -3141
-            invertSensorPhase: 1
-        backRight:
-          drive: RRDr
-          azimuth: RRAz
-          canCoder: RREnc
-          constants:
-            encoderOffset: -2863
-            invertSensorPhase: 1
     tankModules:
       modules:
         frontLeft:
-          drive: FRAZ
+          drive: FRAz
           azimuth: -1
           canCoder: FLEnc
           xCoord: 7.125
@@ -70,7 +50,7 @@ subsystems:
             freeSpin12VRPS: 101
             invertSensorPhase: 1
         frontRight:
-          drive: BLAZ
+          drive: BLAz
           azimuth: -1
           canCoder: FREnc
           xCoord: 7.125
@@ -127,6 +107,9 @@ constants:
   wheelDiameter: 4
   kLooperDt: .020 # seconds
   hasCanivore: 1
+  rotationToleranceClosedLoop: 0.5
+  logRobot: 1
+  logDriveTrain: 1
 
 infrastructure:
   canBusName: rio
