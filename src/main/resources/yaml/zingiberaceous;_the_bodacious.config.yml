@@ -127,3 +127,16 @@ constants:
   wheelDiameter: 4
   kLooperDt: .020 # seconds
   hasCanivore: 1
+
+infrastructure:
+  canBusName: rio
+  # power distribution
+  pdId: 0
+  pdIsRev: false
+  # pneumatics control
+  compressorEnabled: false
+  pcmIsRev: false
+  pcmId: 8
+  # pigeon
+  pigeonId: 9
+  isPigeon2: false
