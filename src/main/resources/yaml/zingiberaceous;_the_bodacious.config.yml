@@ -2,81 +2,60 @@
 subsystems:
   drivetrain:
     implemented: true
+    talons:
+      leftMain: 1
+      rightMain: 2
     falcons:
-      BLAz: 7
-      FRAz: 6
+      LeftTank: 1
+      RightTank: 2
     motors:
-      BLAz:
+      LeftTank:
         motorType: TalonFX
-        motorName: BLAz
-        id: 7
-        invertMotor: false
-      FRAz:
-        motorType: TalonFX
-        motorName: FRAz
-        id: 6
+        motorName: LeftTank
+        id: 1
         invertMotor: true
-    canCoders:
-      FLEnc: 9 #TODO check values
-      FREnc: 12
-      RLEnc: 17
-      RREnc: 16
-    invertMotor:
-      - FRAz
-    invertCanCoder:
-      - FREnc
-    swerveModules:
-      modules:
-        frontLeft:
-          drive: FLDr
-          azimuth: FLAz
-          canCoder: FLEnc
-          constants:
-            encoderOffset: -2121
-            invertSensorPhase: 1
-        frontRight:
-          drive: FRDr
-          azimuth: FRAz
-          canCoder: FREnc
-          constants:
-            encoderOffset: -1715
-            invertSensorPhase: 1
-    tankModules:
-      modules:
-        frontLeft:
-          drive: FRAz
-          azimuth: -1
-          canCoder: FLEnc
-          xCoord: 7.125
-          yCoord: 11.375
-          constants:
-            encoderOffset: -0.34228515625
-            couplingRatio: 3.576
-            freeSpin12VRPS: 101
-            invertSensorPhase: 1
-        frontRight:
-          drive: BLAz
-          azimuth: -1
-          canCoder: FREnc
-          xCoord: 7.125
-          yCoord: -11.375
-          constants:
-            encoderOffset: -0.014404296875
-            couplingRatio: 3.579
-            freeSpin12VRPS: 101
-            invertSensorPhase: 1
-      drivePID:
-        slot0:
-          kP: 0.1
-          kI: 0.0001
-          kD: 4.0
-          kF: 0.0499
-      azimuthPID:
-        slot0:
-          kP: 4.0 # 6.0
-          kI: 0.0005
-          kD: 30
-          kF: 0
+      RightTank:
+        motorType: TalonFX
+        motorName: RightTank
+        id: 2
+        invertMotor: false
+
+#    tankModules:
+#      modules:
+#        frontLeft:
+#          drive: FRAz
+#          azimuth: -1
+#          canCoder: FLEnc
+#          xCoord: 7.125
+#          yCoord: 11.375
+#          constants:
+#            encoderOffset: -0.34228515625
+#            couplingRatio: 3.576
+#            freeSpin12VRPS: 101
+#            invertSensorPhase: 1
+#        frontRight:
+#          drive: BLAz
+#          azimuth: -1
+#          canCoder: FREnc
+#          xCoord: 7.125
+#          yCoord: -11.375
+#          constants:
+#            encoderOffset: -0.014404296875
+#            couplingRatio: 3.579
+#            freeSpin12VRPS: 101
+#            invertSensorPhase: 1
+#      drivePID:
+#        slot0:
+#          kP: 0.1
+#          kI: 0.0001
+#          kD: 4.0
+#          kF: 0.0499
+#      azimuthPID:
+#        slot0:
+#          kP: 4.0 # 6.0
+#          kI: 0.0005
+#          kD: 30
+#          kF: 0
     constants:
       pigeonId: 13
       pigeonOnTalon: -1

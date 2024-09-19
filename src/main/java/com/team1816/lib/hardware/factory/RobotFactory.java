@@ -477,6 +477,7 @@ public class RobotFactory {
 
     private boolean isMotorValid(Map<String, MotorConfiguration> map, String name) {
         if (map != null) {
+            System.out.println(map);
             Integer hardwareId = map.get(name).id;
             return hardwareId != null && hardwareId > -1 && RobotBase.isReal();
         }
@@ -489,6 +490,8 @@ public class RobotFactory {
 
     public SubsystemConfig getSubsystem(String subsystemName) {
         if (config.subsystems.containsKey(subsystemName)) {
+            System.out.println(config.subsystems);
+            System.out.println(subsystemName);
             var subsystem = config.subsystems.get(subsystemName);
             if (subsystem == null) {
                 subsystem = new SubsystemConfig();
