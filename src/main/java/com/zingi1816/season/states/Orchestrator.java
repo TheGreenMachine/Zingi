@@ -3,16 +3,18 @@ package com.zingi1816.season.states;
 import com.ctre.phoenix6.StatusCode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.zingi1816.lib.Injector;
-import com.zingi1816.lib.PlaylistManager;
-import com.zingi1816.lib.input_handler.InputHandler;
-import com.zingi1816.lib.subsystems.LedManager;
-import com.zingi1816.lib.subsystems.drive.Drive;
-import com.zingi1816.lib.subsystems.vision.Camera;
-import com.zingi1816.lib.util.logUtil.GreenLogger;
-import com.zingi1816.lib.util.visionUtil.VisionPoint;
-import com.zingi1816.season.configuration.Constants;
-import com.zingi1816.season.configuration.FieldConfig;
+import com.team1816.lib.Injector;
+import com.team1816.lib.PlaylistManager;
+import com.team1816.lib.input_handler.InputHandler;
+import com.team1816.lib.subsystems.LedManager;
+import com.team1816.lib.subsystems.drive.Drive;
+import com.team1816.lib.subsystems.vision.Camera;
+import com.team1816.lib.util.logUtil.GreenLogger;
+import com.team1816.lib.util.visionUtil.VisionPoint;
+import com.team1816.season.configuration.Constants;
+import com.team1816.season.configuration.FieldConfig;
+import com.team1816.season.subsystems.Collector;
+import com.team1816.season.subsystems.Shooter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -20,7 +22,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import static com.zingi1816.lib.subsystems.Subsystem.robotState;
+import static com.team1816.lib.subsystems.Subsystem.robotState;
 
 /**
  * Main superstructure-style class and logical operator for handling and delegating subsystem tasks. Consists of an integrated
@@ -37,6 +39,8 @@ public class Orchestrator {
     private static Drive drive;
     private static Camera camera;
     private static LedManager ledManager;
+    private static Collector collector;
+    private static Shooter shooter;
     private InputHandler inputHandler;
 
     /**
@@ -70,6 +74,8 @@ public class Orchestrator {
         drive = df.getInstance();
         camera = cam;
         ledManager = led;
+        collector = Injector.get(Collector.class);
+        shooter = Injector.get(Shooter.class);
         inputHandler = Injector.get(InputHandler.class);
     }
 
@@ -158,10 +164,10 @@ public class Orchestrator {
             Pose2d targetPos = FieldConfig.fiducialTargets.get(target.id).toPose2d();
             double X = target.getX(), Y = target.getY();
 
-            Translation2d cameraToTarget = new Translation2d(X, Y).rotateBy(robotState.getLatestFieldToCamera());//relates to Zen
+            Translation2d cameraToTarget = new Translation2d(X, Y).rotateBy(robotState.getLatestFieldToCamera());
             Translation2d robotToTarget = cameraToTarget.plus(
                 Constants.kCameraMountingOffset.getTranslation().rotateBy(
-                    robotState.fieldToVehicle.getRotation()//relates to Zen
+                    robotState.fieldToVehicle.getRotation()
                 )
             );
             Translation2d targetToRobot = robotToTarget.unaryMinus();
@@ -177,7 +183,7 @@ public class Orchestrator {
             GreenLogger.log("Updated Pose: " + p);
             return p;
         } else {
-            return robotState.fieldToVehicle;//relates to Zen
+            return robotState.fieldToVehicle;
         }
     }
 
@@ -195,7 +201,7 @@ public class Orchestrator {
             new Rotation2d()
         );
         Translation2d targetTranslation = target.getBestCameraToTarget().getTranslation().toTranslation2d();
-        Transform2d targetTransform = new Transform2d(targetTranslation, robotState.getLatestFieldToCamera());//relates to Zen
+        Transform2d targetTransform = new Transform2d(targetTranslation, robotState.getLatestFieldToCamera());
         return PhotonUtils.estimateFieldToCamera(targetTransform, targetPos);
     }
 
@@ -206,17 +212,17 @@ public class Orchestrator {
     public void updatePoseWithVisionData() {
         //We'll want a toggle for wether or not this method is called every loop, and then a separate call to it for autoaim eventually
         //Kinda issue, idk what std dev we are supposed to use
-        if (robotState.currentCamFind) {//relates to Zen
+        if (robotState.currentCamFind) {
             drive.updateOdometryWithVision(
-                    robotState.currentVisionEstimatedPose.estimatedPose.toPose2d(),//relates to Zen
-                    robotState.currentVisionEstimatedPose.timestampSeconds,//relates to Zen
-                    camera.getEstimationStdDevs(robotState.currentVisionEstimatedPose.estimatedPose.toPose2d())//relates to Zen
+                    robotState.currentVisionEstimatedPose.estimatedPose.toPose2d(),
+                    robotState.currentVisionEstimatedPose.timestampSeconds,
+                    camera.getEstimationStdDevs(robotState.currentVisionEstimatedPose.estimatedPose.toPose2d())
             );
         }
     }
 
     public void autoSetCollectorState(){
-        if (robotState.isBeamBreakOverridden) {/*relates to Zen
+        if (robotState.isBeamBreakOverridden) {
             collector.setDesiredState(Collector.COLLECTOR_STATE.INTAKE);
         } else if (!robotState.isShooting) {
             if (!robotState.isBeamBreakTriggered && shooter.getActualPivotPosition() < 3) {
@@ -225,7 +231,7 @@ public class Orchestrator {
             } else {
                 collector.setDesiredState(Collector.COLLECTOR_STATE.OUTTAKE);
                 shooter.setDesiredFeederState(Shooter.FEEDER_STATE.STOP);
-            }*/
+            }
         }
     }
 
