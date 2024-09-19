@@ -1,0 +1,89 @@
+subsystems:
+    drivetrain:
+        implemented: true
+        motors:
+            FLDr:
+                motorType: TalonFX
+                motorName: FLDr
+                id: 1
+                invertMotor: false
+            FRDr:
+                motorType: TalonFX
+                motorName: FRDr
+                id: 2
+                invertMotor: true
+            RLDr:
+                motorType: TalonFX
+                motorName: BLDr
+                id: 3
+                invertMotor: true
+            RRDr:
+                motorType: TalonFX
+                motorName: BRDr
+                id: 4
+                invertMotor: true
+        canCoders:
+            FLEnc: 20
+            FREnc: 21
+            RLEnc: 22
+            RREnc: 23
+        constants:
+            ## Positional Configurations ##
+            openLoopRampRate: 0.1
+            isSwerve: 0
+            isCTRSwerve: 0 #TODO IF ALL ELSE FAILS
+            wheelDiameter: 3.81 #inches
+            kTrackScrubFactor: 1.0
+            ## Velocity Constraints ##
+            maxRotVel: 0.8 # Pi radians/sec
+            maxRotVelClosedLoop: 2 # Pi radians/sec
+            trackWidth: 22.75 # inches
+            wheelbaseLength: 22.75 # inches
+            maxVelOpenLoop: 3 # meters/s
+            maxVel12VMPS: 5.2
+            maxVelPathFollowing: 3.1 # meters/s
+            maxAccel: 1.5 # meters/s^2
+            isDemoMode: 1
+            ## Control Configurations ##
+            slowModeScalar: 0.4
+            turboModeScalar: 1.73
+            driveDeadband: 0.1
+            rotationalDeadband: 0.1
+            inputDeadband: 0.15 # Deadband of the normalized input
+            snapDivisor: 30
+    camera:
+        implemented: true
+        constants:
+            useMultiTargetOdometry: 0
+infrastructure:
+    canBusName: highSpeed
+    ## Power Distribution ##
+    pdId: 1
+    pdIsRev: true
+    ## Pneumatics Control ##
+    compressorEnabled: false
+    pcmIsRev: false
+    pcmId: -1
+    ## Pigeon ##
+    pigeonId: 32
+    isPigeon2: true
+inputHandler: drivercentric # the default input handler
+constants:
+    zeroingButton: 9 # channel of DIO port
+    enableMusic: 0
+    ## Drivetrain ##
+    minAllowablePoseError: 0.025
+    maxAllowablePoseError: 5
+    soundOnConfig: 0 #If this is false, It will still beep on robot bootup.
+    rotationToleranceClosedLoop: 0.5
+    ## Logging ##
+    logRobot: 1 # 0 or 1
+    logDrivetrain: 1 # 0 or 1
+    configStatusFrames: 0 # 0 or 1
+    ## General ##
+    usingVision: 1
+    teleopFieldCentric: 1 # 0 or 1
+    kLooperDt: .025 # seconds
+    isProLicensed: 0
+    hasCanivore: 1 # 0 or 1
+    resetFactoryDefaults: 1 # whether motors get reset to factory default
