@@ -51,7 +51,7 @@ public class Climber extends Subsystem {
     /**
      * States
      */
-    private Climber.CLIMBER_STATE desiredState = Climber.CLIMBER_STATE.STOP;
+    private CLIMBER_STATE desiredState = CLIMBER_STATE.STOP;
     private double actualClimberOutput = 0;
     private double desiredClimberOutput = 0;
     private double climberCurrentDraw = 0;
@@ -90,7 +90,7 @@ public class Climber extends Subsystem {
      *
      * @param desiredState CLIMBER_STATE
      */
-    public void setDesiredState(Climber.CLIMBER_STATE desiredState) {
+    public void setDesiredState(CLIMBER_STATE desiredState) {
         this.desiredState = desiredState;
         outputsChanged = true;
     }
@@ -168,7 +168,7 @@ public class Climber extends Subsystem {
     }
 
     @Override
-    public void stop() {desiredState = Climber.CLIMBER_STATE.STOP;}
+    public void stop() {desiredState = CLIMBER_STATE.STOP;}
 
     /**
      * Tests the climber subsystem, returns true if tests passed
@@ -186,7 +186,7 @@ public class Climber extends Subsystem {
      *
      * @return desired climber state
      */
-    public Climber.CLIMBER_STATE getDesiredClimberState() {
+    public CLIMBER_STATE getDesiredClimberState() {
         return desiredState;
     }
 
