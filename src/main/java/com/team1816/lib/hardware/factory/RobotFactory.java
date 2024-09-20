@@ -191,6 +191,7 @@ public class RobotFactory {
         var subsystem = getSubsystem(subsystemName);
         if (subsystem.implemented && main != null) {
             if (isMotorValid(subsystem.motors, name)) {
+                System.out.println(name);
                 switch(subsystem.motors.get(name).motorType) {
                     case TalonFX -> {
                         followerMotor =
@@ -477,7 +478,7 @@ public class RobotFactory {
 
     private boolean isMotorValid(Map<String, MotorConfiguration> map, String name) {
         if (map != null) {
-            System.out.println(map);
+            if (!map.containsKey(name)) return false;
             Integer hardwareId = map.get(name).id;
             return hardwareId != null && hardwareId > -1 && RobotBase.isReal();
         }
@@ -490,8 +491,6 @@ public class RobotFactory {
 
     public SubsystemConfig getSubsystem(String subsystemName) {
         if (config.subsystems.containsKey(subsystemName)) {
-            System.out.println(config.subsystems);
-            System.out.println(subsystemName);
             var subsystem = config.subsystems.get(subsystemName);
             if (subsystem == null) {
                 subsystem = new SubsystemConfig();

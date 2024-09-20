@@ -9,91 +9,58 @@ subsystems:
       LeftTank: 1
       RightTank: 2
     motors:
-      LeftTank:
+      leftMain:
         motorType: TalonFX
         motorName: LeftTank
         id: 1
         invertMotor: true
-      RightTank:
+      rightMain:
         motorType: TalonFX
         motorName: RightTank
         id: 2
         invertMotor: false
 
-#    tankModules:
-#      modules:
-#        frontLeft:
-#          drive: FRAz
-#          azimuth: -1
-#          canCoder: FLEnc
-#          xCoord: 7.125
-#          yCoord: 11.375
-#          constants:
-#            encoderOffset: -0.34228515625
-#            couplingRatio: 3.576
-#            freeSpin12VRPS: 101
-#            invertSensorPhase: 1
-#        frontRight:
-#          drive: BLAz
-#          azimuth: -1
-#          canCoder: FREnc
-#          xCoord: 7.125
-#          yCoord: -11.375
-#          constants:
-#            encoderOffset: -0.014404296875
-#            couplingRatio: 3.579
-#            freeSpin12VRPS: 101
-#            invertSensorPhase: 1
-#      drivePID:
-#        slot0:
-#          kP: 0.1
-#          kI: 0.0001
-#          kD: 4.0
-#          kF: 0.0499
-#      azimuthPID:
-#        slot0:
-#          kP: 4.0 # 6.0
-#          kI: 0.0005
-#          kD: 30
-#          kF: 0
     constants:
-      pigeonId: 13
-      pigeonOnTalon: -1
-      kP: 0.1 # 0.18 # TODO: tune PID, these are temporary PID values from Zeta
-      kI: 0.0001 # 0.018
-      kD: 4.0 # 3.6
-      kF: 0.0475813
-      iZone: 0
-      currentFloorCheck: .12
-      currentEpsilonCheck: .2
-      rpmFloorCheck: 2000
-      rpmEpsilonCheck: 60
+      ## Velocity Constraints ##
+      maxVelTicks100ms: 40275.7 # From Zodiac Pro
+      encPPR: 22220.8 # Would need encoders
       openLoopRampRate: 0.8
       isSwerve: 0
-      encPPR: 21770
-      azimuthEncPPR: 4096
-      azimuthAllowableErrorTicks: 20
-      azimuthHomeAdjustmentDegrees: 1
+      isCTRSwerve: 0
+      maxRotVel: 7.2
+      maxRotVelClosedLoop: 7.2 # TODO: CHECK
+      trackWidth: 21.5 # inches (25)
+      wheelbaseLength: 18.5 # inches (25)
+      wheelDiameter: 6.32
+      kTrackScrubFactor: 1.0
+      maxVelOpenLoop: 2.5 # meters/s, Minnetrials speed limit
+      maxVelPathFollowing: 2 # meters/s (3.6)
+      maxAccel: 1 # meters/s^2 (2.54)
+      currentLimit: 30
       isDemoMode: 0
+      ## Auto Balance ##
+      autoBalanceDivider: 50
+      autoBalanceThreshold: 2.5 # degrees
 pcm: 8
 constants:
-  maxVelTicks100ms: 12275.7 # ticks per 100ms TODO make into constant unique to each subsystem
-  maxRotVel: 11.5
-  maxVel: 120 # 160 # 240 # inches/s # 22560 native units ---30
-  maxAccel: 100 # inches/s^2
-  sensorPhase: 0
-  kTrackScrubFactor: 1.0
-  verbose: 0 # 0 or 1
-  ## Logging ##
-  ## General ##
-  teleopFieldCentric: 1 # 0 or 1
-  compressorEnabled: 0 # 0 or 1
-  wheelDiameter: 4
-  kLooperDt: .020 # seconds
-  hasCanivore: 1
+  zeroingButton: 9 # channel of DIO port
+  enableMusic: 0
+  ## Drivetrain ##
+  minAllowablePoseError: 0.025
+  maxAllowablePoseError: 5
+  soundOnConfig: 0 #If this is false, It will still beep on robot bootup.
   rotationToleranceClosedLoop: 0.5
-  logRobot: 1
-  logDriveTrain: 1
+  ## Logging ##
+  logRobot: 1 # 0 or 1
+  logDrivetrain: 1 # 0 or 1
+  configStatusFrames: 0 # 0 or 1
+  ## General ##
+  usingVision: 0
+  teleopFieldCentric: 1 # 0 or 1
+  kLooperDt: .025 # seconds
+  isProLicensed: 0
+  hasCanivore: 1 # 0 or 1
+  resetFactoryDefaults: 1 # whether motors get reset to factory default
 
 infrastructure:
   canBusName: rio
@@ -103,7 +70,7 @@ infrastructure:
   # pneumatics control
   compressorEnabled: false
   pcmIsRev: false
-  pcmId: 8
+  pcmId: -1
   # pigeon
-  pigeonId: 9
+  pigeonId: 3
   isPigeon2: false

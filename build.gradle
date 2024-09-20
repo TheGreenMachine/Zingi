@@ -264,7 +264,7 @@ processResources {
 }
 
 wrapper {
-    gradleVersion = '7.2'
+    gradleVersion = '8.10'
 }
 
 // Configure jar and deploy tasks
