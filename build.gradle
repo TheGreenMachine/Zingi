@@ -248,7 +248,7 @@ task runZodiac(type: JavaExec) {
         jvmArgs "-XstartOnFirstThread"
     }
     environment "HALSIM_EXTENSIONS", hal
-    environment "ROBOT_NAME", "zingiberaceous;_the_bodacious"
+    environment "ROBOT_NAME", "zodiac_pro"
     dependsOn(jar, simulateExternalJavaRelease)
     classpath = files(jar)
     jvmArgs "-Djava.library.path=${jniDir}"

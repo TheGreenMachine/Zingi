@@ -1,0 +1,98 @@
+## THE BROKEN FILE ##
+
+subsystems:
+  drivetrain:
+    implemented: true
+    motors:
+      motors:
+        leftMain:
+          motorType: TalonFX
+          motorName: LeftTank
+          id: 17
+          invertMotor: true
+        leftFollower:
+          motorType: TalonFX
+          motorName: leftFollower
+          id: -1
+          invertMotor: false
+        leftFollowerTwo:
+          motorType: TalonFX
+          motorName: leftFollowerTwo
+          id: -1
+          invertMotor: false
+        rightMain:
+          motorType: TalonFX
+          motorName: RightTank
+          id: 14
+          invertMotor: false
+        rightFollower:
+          motorType: TalonFX
+          motorName: rightFollower
+          id: -1
+          invertMotor: false
+        rightFollowerTwo:
+          motorType: TalonFX
+          motorName: rightFollowerTwo
+          id: -1
+          invertMotor: false
+      pidConfig:
+        slot0:
+          kP: 0.1 # 0.18
+          kI: 0.0001 # 0.018
+          kD: 4.0 # 3.6
+          kF: 0.0475813
+
+    constants:
+      ## Velocity Constraints ##
+      maxVelTicks100ms: 40275.7 # From Zodiac Pro
+      encPPR: 22220.8 # Would need encoders
+      openLoopRampRate: 0.8
+      isSwerve: 0
+      isCTRSwerve: 0
+      maxRotVel: 7.2
+      maxRotVelClosedLoop: 7.2 # TODO: CHECK
+      trackWidth: 21.5 # inches (25)
+      wheelbaseLength: 18.5 # inches (25)
+      wheelDiameter: 6.32
+      kTrackScrubFactor: 1.0
+      maxVelOpenLoop: 2.5 # meters/s, Minnetrials speed limit
+      maxVelPathFollowing: 2 # meters/s (3.6)
+      maxAccel: 1 # meters/s^2 (2.54)
+      currentLimit: 30
+      isDemoMode: 0
+      ## Auto Balance ##
+      autoBalanceDivider: 50
+      autoBalanceThreshold: 2.5 # degrees
+pcm: 8
+constants:
+  zeroingButton: 9 # channel of DIO port
+  enableMusic: 0
+  ## Drivetrain ##
+  minAllowablePoseError: 0.025
+  maxAllowablePoseError: 5
+  soundOnConfig: 0 #If this is false, It will still beep on robot bootup.
+  rotationToleranceClosedLoop: 0.5
+  ## Logging ##
+  logRobot: 1 # 0 or 1
+  logDrivetrain: 1 # 0 or 1
+  configStatusFrames: 0 # 0 or 1
+  ## General ##
+  usingVision: 0
+  teleopFieldCentric: 1 # 0 or 1
+  kLooperDt: .025 # seconds
+  isProLicensed: 0
+  hasCanivore: 1 # 0 or 1
+  resetFactoryDefaults: 1 # whether motors get reset to factory default
+
+infrastructure:
+  canBusName: rio
+  # power distribution
+  pdId: 0
+  pdIsRev: false
+  # pneumatics control
+  compressorEnabled: false
+  pcmIsRev: false
+  pcmId: -1
+  # pigeon
+  pigeonId: 3
+  isPigeon2: false

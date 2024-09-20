@@ -1,47 +1,74 @@
-#TODO should probably either delete or fully revamp this class
 subsystems:
   drivetrain:
     implemented: true
-    talons:
-      leftMain: 1
-      rightMain: 2
-    falcons:
-      LeftTank: 1
-      RightTank: 2
     motors:
       leftMain:
         motorType: TalonFX
-        motorName: LeftTank
-        id: 1
+        motorName: leftMain
+        id: 17
         invertMotor: true
       rightMain:
         motorType: TalonFX
-        motorName: RightTank
-        id: 2
+        motorName: rightMain
+        id: 14
         invertMotor: false
-
+      # motors i won't remove because i'm too scared something will break
+      leftFollower:
+        motorType: TalonFX
+        motorName: leftFollower
+        id: -1
+        invertMotor: false
+      leftFollowerTwo:
+        motorType: TalonFX
+        motorName: leftFollowerTwo
+        id: -1
+        invertMotor: false
+      rightFollower:
+        motorType: TalonFX
+        motorName: rightFollower
+        id: -1
+        invertMotor: false
+      rightFollowerTwo:
+        motorType: TalonFX
+        motorName: rightFollowerTwo
+        id: -1
+        invertMotor: false
+    pidConfig:
+      slot0:
+        kP: 0.1 # 0.18
+        kI: 0.0001 # 0.018
+        kD: 4.0 # 3.6
+        kF: 0.0475813
     constants:
-      ## Velocity Constraints ##
-      maxVelTicks100ms: 40275.7 # From Zodiac Pro
-      encPPR: 22220.8 # Would need encoders
+      maxVelTicks100ms: 40275.7
+      encPPR: 22220.8
       openLoopRampRate: 0.8
       isSwerve: 0
       isCTRSwerve: 0
+      maxRotVelClosedLoop: 1
       maxRotVel: 7.2
-      maxRotVelClosedLoop: 7.2 # TODO: CHECK
-      trackWidth: 21.5 # inches (25)
-      wheelbaseLength: 18.5 # inches (25)
-      wheelDiameter: 6.32
+      trackWidth: 21 #inches
+      wheelbaseLength: 21.5 #inches
+      wheelDiameter: 4
       kTrackScrubFactor: 1.0
-      maxVelOpenLoop: 2.5 # meters/s, Minnetrials speed limit
-      maxVelPathFollowing: 2 # meters/s (3.6)
-      maxAccel: 1 # meters/s^2 (2.54)
-      currentLimit: 30
-      isDemoMode: 0
-      ## Auto Balance ##
-      autoBalanceDivider: 50
-      autoBalanceThreshold: 2.5 # degrees
-pcm: 8
+      maxVelOpenLoop: 3 # meters/s
+      maxVelPathFollowing: 2.2 # meters/s
+      maxAccel: 2.54 # meters/s^ 2
+      currentLimit: 40
+      isDemoMode: 1
+infrastructure:
+  canBusName: rio
+  # power distribution
+  pdId: 0
+  pdIsRev: false
+  # pneumatics control
+  compressorEnabled: false
+  pcmIsRev: false
+  pcmId: -1
+  # pigeon
+  pigeonId: 9
+  isPigeon2: false
+inputHandler: example # demo
 constants:
   zeroingButton: 9 # channel of DIO port
   enableMusic: 0
@@ -61,16 +88,3 @@ constants:
   isProLicensed: 0
   hasCanivore: 1 # 0 or 1
   resetFactoryDefaults: 1 # whether motors get reset to factory default
-
-infrastructure:
-  canBusName: rio
-  # power distribution
-  pdId: 0
-  pdIsRev: false
-  # pneumatics control
-  compressorEnabled: false
-  pcmIsRev: false
-  pcmId: -1
-  # pigeon
-  pigeonId: 3
-  isPigeon2: false

@@ -191,7 +191,6 @@ public class RobotFactory {
         var subsystem = getSubsystem(subsystemName);
         if (subsystem.implemented && main != null) {
             if (isMotorValid(subsystem.motors, name)) {
-                System.out.println(name);
                 switch(subsystem.motors.get(name).motorType) {
                     case TalonFX -> {
                         followerMotor =

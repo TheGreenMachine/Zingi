@@ -218,6 +218,7 @@ public class MotorFactory {
             int remoteSensorId
     ) {
         MotorConfiguration motorConfiguration = subsystem.motors.get(name);
+        
         boolean isTalon = !(motor instanceof LazySparkMax || motor instanceof GhostMotor); // Talon also refers to VictorSPX, isCTRE just looks worse :)
 
         // for newly attached motors only
@@ -277,7 +278,8 @@ public class MotorFactory {
         // Current limits
         motor.configCurrentLimit(
                 new SupplyCurrentLimitConfiguration(
-                        motorConfiguration.enableCurrentLimit != null ?  motorConfiguration.enableCurrentLimit : ENABLE_CURRENT_LIMIT,
+                        motorConfiguration.enableCurrentLimit != null
+                                ?  motorConfiguration.enableCurrentLimit : ENABLE_CURRENT_LIMIT,
                         motorConfiguration.currentLimit != null ? motorConfiguration.currentLimit : 40, //Default 40
                         motorConfiguration.currentLimitThreshold != null ? motorConfiguration.currentLimitThreshold : 80, // Default 80
                         motorConfiguration.currentLimitTriggerTime != null ? motorConfiguration.currentLimitTriggerTime : 1 // Default 1
