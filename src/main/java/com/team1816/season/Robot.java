@@ -222,6 +222,7 @@ public class Robot extends TimedRobot {
             /** Register inputHandler */
             inputHandler = Injector.get(InputHandler.class);
 
+            // TODO: strafe, throttle, rotation, brakeMode, slowMode, zeroPose
 
             /** Driver Commands */
             inputHandler.listenAction(
@@ -236,7 +237,7 @@ public class Robot extends TimedRobot {
             );
 
             inputHandler.listenAction(
-                    "hardZeroPose", //FIXME this sometimes does weird rotation in sim, idk about in real life
+                    "hardZeroPose",
                     ActionState.PRESSED,
                     () ->
                             drive.zeroSensors(
@@ -260,35 +261,6 @@ public class Robot extends TimedRobot {
             inputHandler.listenActionPressAndRelease(
                     "slowMode",
                     drive::setSlowMode
-            );
-    //balls
-            //balls
-            inputHandler.listenActionPressAndRelease(
-                    "snapToPickup",
-                    (pressed) -> {
-                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.PICKUP : RobotState.SnappingDirection.NO_SNAP;
-                    }
-            );
-
-            inputHandler.listenActionPressAndRelease(
-                    "snapToScore",
-                    (pressed) -> {
-                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.SCORE : RobotState.SnappingDirection.NO_SNAP;
-                    }
-            );
-
-            inputHandler.listenActionPressAndRelease(
-                    "snapToBottomSpeaker",
-                    (pressed) -> {
-                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.BOTTOM_SPEAKER : RobotState.SnappingDirection.NO_SNAP;
-                    }
-            );
-
-            inputHandler.listenActionPressAndRelease(
-                    "snapToTopSpeaker",
-                    (pressed) -> {
-                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.TOP_SPEAKER : RobotState.SnappingDirection.NO_SNAP;
-                    }
             );
 
             //Not yet assigned

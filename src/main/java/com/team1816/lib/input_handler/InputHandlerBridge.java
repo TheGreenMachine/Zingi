@@ -82,7 +82,7 @@ public class InputHandlerBridge {
 
     @Inject
     public InputHandlerBridge() {
-        String[] inputHandlers = Objects.requireNonNull(new File("src/main/resources/yaml/input_handler").list());
+        String[] inputHandlers = new File("src/main/resources/yaml/input_handler").list();
 
         for(int i = 0; i < inputHandlers.length; i++){
             if(inputHandlers[i].endsWith(".input_handler.config.yml"))

@@ -191,32 +191,7 @@
           "visible": true
         }
       },
-      "/SmartDashboard/First shooting position": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Mech2d": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Robot color": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Scram Or Not": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Second collected note": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Second shooting position": {
         "window": {
           "visible": true
         }

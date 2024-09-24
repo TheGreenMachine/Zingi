@@ -5,14 +5,13 @@ subsystems:
       leftMain:
         motorType: TalonFX
         motorName: leftMain
-        id: 17
+        id: 1
         invertMotor: true
       rightMain:
         motorType: TalonFX
         motorName: rightMain
-        id: 14
+        id: 2
         invertMotor: false
-      # motors i won't remove because i'm too scared something will break
       leftFollower:
         motorType: TalonFX
         motorName: leftFollower
@@ -44,17 +43,15 @@ subsystems:
       encPPR: 22220.8
       openLoopRampRate: 0.8
       isSwerve: 0
-      isCTRSwerve: 0
-      maxRotVelClosedLoop: 1
       maxRotVel: 7.2
-      trackWidth: 21 #inches
+      trackWidth: 21.5
       wheelbaseLength: 21.5 #inches
-      wheelDiameter: 4
+      wheelDiameter: 6.32
       kTrackScrubFactor: 1.0
-      maxVelOpenLoop: 3 # meters/s
+      maxVelOpenLoop: 2.5 # meters/s
       maxVelPathFollowing: 2.2 # meters/s
-      maxAccel: 2.54 # meters/s^ 2
-      currentLimit: 40
+      maxAccel: 2.54 # meters/s^2
+      currentLimit: 30
       isDemoMode: 1
 infrastructure:
   canBusName: rio
@@ -64,27 +61,21 @@ infrastructure:
   # pneumatics control
   compressorEnabled: false
   pcmIsRev: false
-  pcmId: -1
+  pcmId: 8
   # pigeon
   pigeonId: 9
   isPigeon2: false
-inputHandler: example # demo
+inputHandler: drivercentric # demo
 constants:
-  zeroingButton: 9 # channel of DIO port
-  enableMusic: 0
-  ## Drivetrain ##
-  minAllowablePoseError: 0.025
-  maxAllowablePoseError: 5
-  soundOnConfig: 0 #If this is false, It will still beep on robot bootup.
-  rotationToleranceClosedLoop: 0.5
+  # drivetrain misc
+  maxAllowablePoseError: 0.1
   ## Logging ##
-  logRobot: 1 # 0 or 1
-  logDrivetrain: 1 # 0 or 1
+  logRobot: 0
+  logDrivetrain: 0 # 0 or 1
   configStatusFrames: 0 # 0 or 1
+  verbose: 0 # 0 or 1
   ## General ##
-  usingVision: 0
+  EnableBucketTuning: 1
   teleopFieldCentric: 1 # 0 or 1
-  kLooperDt: .025 # seconds
-  isProLicensed: 0
-  hasCanivore: 1 # 0 or 1
-  resetFactoryDefaults: 1 # whether motors get reset to factory default
+  kLooperDt: .035 # seconds
+  resetFactoryDefaults: 0 # whether motors get reset to factory default
