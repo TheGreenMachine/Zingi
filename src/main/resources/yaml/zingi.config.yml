@@ -43,6 +43,7 @@ subsystems:
       encPPR: 22220.8
       openLoopRampRate: 0.8
       isSwerve: 0
+      isCTRSwerve: 0
       maxRotVel: 7.2
       trackWidth: 21.5
       wheelbaseLength: 21.5 #inches
@@ -50,6 +51,7 @@ subsystems:
       kTrackScrubFactor: 1.0
       maxVelOpenLoop: 2.5 # meters/s
       maxVelPathFollowing: 2.2 # meters/s
+      maxRotVelClosedLoop: 2
       maxAccel: 2.54 # meters/s^2
       currentLimit: 30
       isDemoMode: 1
@@ -65,10 +67,11 @@ infrastructure:
   # pigeon
   pigeonId: 9
   isPigeon2: false
-inputHandler: drivercentric # demo
+inputHandler: simpledriver # demo
 constants:
   # drivetrain misc
   maxAllowablePoseError: 0.1
+  minAllowablePoseError: 0.025
   ## Logging ##
   logRobot: 0
   logDrivetrain: 0 # 0 or 1
@@ -79,3 +82,5 @@ constants:
   teleopFieldCentric: 1 # 0 or 1
   kLooperDt: .035 # seconds
   resetFactoryDefaults: 0 # whether motors get reset to factory default
+  rotationToleranceClosedLoop: 0.5
+  hasCanivore: 1

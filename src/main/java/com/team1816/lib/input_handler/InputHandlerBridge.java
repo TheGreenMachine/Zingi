@@ -13,15 +13,31 @@ import com.team1816.lib.input_handler.controlOptions.Button;
 import com.team1816.lib.input_handler.controlOptions.Dpad;
 import com.team1816.lib.input_handler.controlOptions.Trigger;
 import com.team1816.lib.util.logUtil.GreenLogger;
+import com.team1816.season.Robot;
+import com.team1816.season.configuration.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.print.URIException;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class InputHandlerBridge {
     private InputHandlerConfig config;
@@ -82,12 +98,43 @@ public class InputHandlerBridge {
 
     @Inject
     public InputHandlerBridge() {
-        String[] inputHandlers = new File("src/main/resources/yaml/input_handler").list();
+//        List<String> inputHandlers = new ArrayList<>();
+//        try {
+//            CodeSource src = Robot.class.getProtectionDomain().getCodeSource();
+//            if (src != null) {
+//                URL jar = src.getLocation();
+//                ZipInputStream zip = new ZipInputStream(jar.openStream());
+//                while (true) {
+//                    ZipEntry e = zip.getNextEntry();
+//                    if (e == null)
+//                        break;
+//                    String name = e.getName();
+//
+//                    if (!inputHandlers.contains(name)
+//                            && name.startsWith("yaml/input_handler")
+//                            && name.endsWith(".input_handler.config.yml")) {
+//                        inputHandlers.add(name);
+//                        System.out.println(name);
+//                    }
+//                }
+//            } else {
+//                GreenLogger.log("ERROR: Input handlers not found! CodeSource not found.");
+//            }
+//        } catch (IOException e) {
+//            GreenLogger.log("ERROR: Input handlers not found!");
+//            e.printStackTrace();
+//        }
+        List<String> inputHandlers = Arrays.asList(new File("src/main/resources/yaml/input_handler").list());
 
-        for(int i = 0; i < inputHandlers.length; i++){
-            if(inputHandlers[i].endsWith(".input_handler.config.yml"))
-                controllerLayoutChooser.addOption(inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()), inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()));
+        for (int i = 0; i < inputHandlers.size(); i++){
+            String inputHandler = inputHandlers.get(i);
+            if(inputHandlers.get(i).endsWith(".input_handler.config.yml")) {
+                String substring = inputHandler.substring(0, inputHandler.length() - ".input_handler.config.yml".length());
+                controllerLayoutChooser.addOption(substring, substring);
+            }
         }
+        
+        System.out.println(inputHandlers.size() + " input handlers found!");
 
         controllerLayoutChooser.setDefaultOption(factory.getInputHandlerName(), factory.getInputHandlerName());
 

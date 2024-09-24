@@ -186,11 +186,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/First collected note": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Mech2d": {
         "window": {
           "visible": true
@@ -266,6 +261,15 @@
     "special": true
   },
   "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "open": true
+    },
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }
