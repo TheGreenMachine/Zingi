@@ -25,7 +25,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import java.util.Optional;
 
-public class Camera extends Subsystem{
+public class Camera extends Subsystem {
     /**
      * Properties
      */

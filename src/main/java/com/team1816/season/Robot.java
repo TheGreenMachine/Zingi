@@ -223,7 +223,7 @@ public class Robot extends TimedRobot {
             inputHandler = Injector.get(InputHandler.class);
 
             // TODO: strafe, throttle, rotation, brakeMode, slowMode, zeroPose
-
+            
             /** Driver Commands */
             inputHandler.listenAction(
                     "zeroPose",
@@ -235,9 +235,9 @@ public class Robot extends TimedRobot {
                                             Rotation2d.fromDegrees(180)
                             )
             );
-
+            
             inputHandler.listenAction(
-                    "hardZeroPose",
+                    "hardZeroPose", //FIXME this sometimes does weird rotation in sim, idk about in real life
                     ActionState.PRESSED,
                     () ->
                             drive.zeroSensors(
@@ -246,23 +246,52 @@ public class Robot extends TimedRobot {
                                             Constants.kFlippedZeroingPose
                             )
             );
-
-
+            
+            
             inputHandler.listenActionPressAndRelease(
                     "brakeMode",
                     drive::setBraking
             );
-
+            
             inputHandler.listenActionPressAndRelease(
                     "turboMode",
                     drive::setTurboMode
             );
-
+            
             inputHandler.listenActionPressAndRelease(
                     "slowMode",
                     drive::setSlowMode
             );
-
+            //balls
+            //balls
+            inputHandler.listenActionPressAndRelease(
+                    "snapToPickup",
+                    (pressed) -> {
+                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.PICKUP : RobotState.SnappingDirection.NO_SNAP;
+                    }
+            );
+            
+            inputHandler.listenActionPressAndRelease(
+                    "snapToScore",
+                    (pressed) -> {
+                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.SCORE : RobotState.SnappingDirection.NO_SNAP;
+                    }
+            );
+            
+            inputHandler.listenActionPressAndRelease(
+                    "snapToBottomSpeaker",
+                    (pressed) -> {
+                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.BOTTOM_SPEAKER : RobotState.SnappingDirection.NO_SNAP;
+                    }
+            );
+            
+            inputHandler.listenActionPressAndRelease(
+                    "snapToTopSpeaker",
+                    (pressed) -> {
+                        robotState.snapDirection = pressed ? RobotState.SnappingDirection.TOP_SPEAKER : RobotState.SnappingDirection.NO_SNAP;
+                    }
+            );
+            
             //Not yet assigned
             inputHandler.listenAction(
                     "toggleOverride",
@@ -272,7 +301,7 @@ public class Robot extends TimedRobot {
                         robotState.isBeamBreakOverridden = !robotState.isBeamBreakOverridden;
                     }
             );
-
+            
             inputHandler.listenActionPressAndRelease(
                     "rotateToPoint",
                     drive::setRotatingClosedLoop
