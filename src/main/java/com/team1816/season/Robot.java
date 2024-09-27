@@ -29,9 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Robot extends TimedRobot {
-    //TODO remove this variable
-    private boolean isLooping = false;
-
     /**
      * Looper
      */
@@ -292,16 +289,6 @@ public class Robot extends TimedRobot {
                     }
             );
             
-            //Not yet assigned
-            inputHandler.listenAction(
-                    "toggleOverride",
-                    ActionState.PRESSED,
-                    () -> {
-                        GreenLogger.log("Toggling beambreak override to " + !robotState.isBeamBreakOverridden);
-                        robotState.isBeamBreakOverridden = !robotState.isBeamBreakOverridden;
-                    }
-            );
-            
             inputHandler.listenActionPressAndRelease(
                     "rotateToPoint",
                     drive::setRotatingClosedLoop
@@ -370,8 +357,6 @@ public class Robot extends TimedRobot {
                             Rotation2d.fromDegrees(0) :
                             Rotation2d.fromDegrees(180)
             );
-
-//            shooter.zeroMotor();
         } catch (Throwable t) {
             faulted = true;
             throw t;
@@ -437,10 +422,8 @@ public class Robot extends TimedRobot {
             subsystemManager.outputToSmartDashboard(); // update shuffleboard for subsystem values
             robotState.outputToSmartDashboard(); // update robot state on field for Field2D widget
             playlistManager.outputToSmartDashboard(); // update shuffleboard selected song
-
-            double activeRumble = robotState.readyToShoot ? 0.9 : 0.7;
-            orchestrator.setControllerRumble(InputHandler.ControllerRole.DRIVER, InputHandler.RumbleDirection.UNIFORM,
-                    robotState.isBeamBreakTriggered && !robotState.isBeamBreakOverridden ? activeRumble : 0);
+            
+            drive.setTeleopInputs(1, 0, 0);
         } catch (Throwable t) {
             faulted = true;
             GreenLogger.log(t.getMessage());

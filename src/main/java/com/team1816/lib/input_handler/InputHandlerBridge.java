@@ -12,11 +12,12 @@ import com.team1816.lib.input_handler.controlOptions.Button;
 import com.team1816.lib.input_handler.controlOptions.Dpad;
 import com.team1816.lib.input_handler.controlOptions.Trigger;
 import com.team1816.lib.util.logUtil.GreenLogger;
+import com.team1816.season.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -79,22 +80,20 @@ public class InputHandlerBridge {
 
     @Inject
     public InputHandlerBridge() {
-        File file = new File("drivercentric.input_handler.config.yml");
-        String path = file.getAbsolutePath();
-        
-//        String[] inputHandlers = new File("src/main/resources/yaml/input_handler").list();
-        
-        System.out.println("Path: "+file);
-        System.out.println("Folder: "+path);
-
-//        if (inputHandlers != null)
-//        for (String inputHandler : inputHandlers) {
-//            if (inputHandler == null) continue;
+//        try (InputStream is = Robot.class.getResourceAsStream("\\yaml\\input_handler\\inputhandlers.txt");
+//             InputStreamReader isReader = new InputStreamReader(is);
+//             BufferedReader reader = new BufferedReader(isReader)) {
 //
-//            if (inputHandler.endsWith(".input_handler.config.yml")) {
-//                String substring = inputHandler.substring(0, inputHandler.length() - ".input_handler.config.yml".length());
-//                controllerLayoutChooser.addOption(substring, substring);
+//            for (String s : reader.lines().toList()) {
+//                if (Robot.class.getResource(s + ".input_handler.config.yml") != null) {
+//                    controllerLayoutChooser.addOption(s, s);
+//                } else {
+//                    GreenLogger.log("  Input handler in inputhandlers.txt '" + s + "' not found, skipping...");
+//                }
 //            }
+//
+//        } catch (IOException e) {
+//
 //        }
 
         controllerLayoutChooser.setDefaultOption(factory.getInputHandlerName(), factory.getInputHandlerName());

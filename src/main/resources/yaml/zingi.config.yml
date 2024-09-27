@@ -63,11 +63,11 @@ infrastructure:
   # pneumatics control
   compressorEnabled: false
   pcmIsRev: false
-  pcmId: 8
+  pcmId: -1
   # pigeon
-  pigeonId: 9
+  pigeonId: 3
   isPigeon2: false
-inputHandler: simpledriver # demo
+inputHandler: drivercentric # demo
 constants:
   # drivetrain misc
   maxAllowablePoseError: 0.1

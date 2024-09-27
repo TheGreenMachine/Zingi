@@ -16,14 +16,11 @@ import com.team1816.lib.util.team254.SwerveDriveSignal;
 import com.team1816.season.Robot;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.states.RobotState;
-import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.util.datalog.DoubleArrayLogEntry;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
@@ -283,7 +280,6 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
      * Sets the module states to a desired set of states in closed loop - this is used during autos
      *
      * @param desiredStates desiredModuleStates
-     * @see com.team1816.lib.auto.actions.TrajectoryAction
      */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         if (controlState != ControlState.TRAJECTORY_FOLLOWING) {
