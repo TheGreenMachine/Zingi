@@ -133,7 +133,7 @@ public class GhostMotor implements IGreenMotor {
         // setting actual output
         if (controlMode == GreenControlMode.PERCENT_OUTPUT) {
             actualOutput[0] = desiredDemand[0];
-            actualOutput[1] = desiredDemand[0] * maxVelRotationsPerSec;
+            actualOutput[1] = desiredDemand[0] * maxVelRotationsPerSec * 2_0_0_0_0; //FIXME: find a way to remove 20k without pr
             actualOutput[2] = lastPos + (actualOutput[1] * dtBetweenCallsSec);
         } else if (controlMode == GreenControlMode.VELOCITY_CONTROL) {
             actualOutput[0] = desiredDemand[1] / maxVelRotationsPerSec;
