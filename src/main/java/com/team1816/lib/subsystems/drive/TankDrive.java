@@ -76,6 +76,7 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
         super(lm, inf, rs);
         // configure motors
         leftMain = factory.getMotor(NAME, "leftMain");
+        System.out.println(leftMain);
         leftFollowerA = factory.getFollowerMotor(NAME, "leftFollower", leftMain, false);
         leftFollowerB = factory.getFollowerMotor(NAME, "leftFollowerTwo", leftMain, false);
         rightMain = factory.getMotor(NAME, "rightMain");
@@ -137,9 +138,10 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
      */
     @Override
     public synchronized void writeToHardware() {// sets the demands for hardware from the inputs provided
-        if (controlState == ControlState.OPEN_LOOP) {
+//        if (controlState == ControlState.OPEN_LOOP) {
+        if (false) {
             leftMain.set(
-                GreenControlMode.PERCENT_OUTPUT,
+                GreenControlMode.PERCENT_OUTPUT, // TODO: FIX
                 isSlowMode ? (leftPowerDemand * 0.5) : leftPowerDemand
             );
             rightMain.set(
@@ -355,7 +357,7 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
      */
     public synchronized void setVelocity(DriveSignal signal) {
         if (controlState == ControlState.OPEN_LOOP) {
-            leftMain.selectPIDSlot(0);
+            leftMain.selectPIDSlot(0); // TODO: figure out what this is doing
             rightMain.selectPIDSlot(0);
 
             leftMain.config_NeutralDeadband(0.0);

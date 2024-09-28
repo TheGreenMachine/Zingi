@@ -67,7 +67,7 @@ infrastructure:
   # pigeon
   pigeonId: 3
   isPigeon2: false
-inputHandler: drivercentric # demo
+inputHandler: chocodrive # demo
 constants:
   # drivetrain misc
   maxAllowablePoseError: 0.1
