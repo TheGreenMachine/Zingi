@@ -12,14 +12,11 @@ import com.team1816.lib.input_handler.controlOptions.Button;
 import com.team1816.lib.input_handler.controlOptions.Dpad;
 import com.team1816.lib.input_handler.controlOptions.Trigger;
 import com.team1816.lib.util.logUtil.GreenLogger;
-import com.team1816.season.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class InputHandlerBridge {
     private InputHandlerConfig config;
@@ -80,21 +77,22 @@ public class InputHandlerBridge {
 
     @Inject
     public InputHandlerBridge() {
-//        try (InputStream is = Robot.class.getResourceAsStream("\\yaml\\input_handler\\inputhandlers.txt");
-//             InputStreamReader isReader = new InputStreamReader(is);
-//             BufferedReader reader = new BufferedReader(isReader)) {
-//
-//            for (String s : reader.lines().toList()) {
-//                if (Robot.class.getResource(s + ".input_handler.config.yml") != null) {
-//                    controllerLayoutChooser.addOption(s, s);
-//                } else {
-//                    GreenLogger.log("  Input handler in inputhandlers.txt '" + s + "' not found, skipping...");
-//                }
-//            }
-//
-//        } catch (IOException e) {
-//
-//        }
+        try (InputStream is = RobotFactory.class.getClassLoader().getResourceAsStream("yaml/input_handler/inputhandlers.txt");
+             InputStreamReader isReader = new InputStreamReader(is);
+             BufferedReader reader = new BufferedReader(isReader)) {
+
+            for (String s : reader.lines().toList()) {
+                if (RobotFactory.class.getClassLoader().getResource("yaml/input_handler/" + s + ".input_handler.config.yml") != null) {
+                    controllerLayoutChooser.addOption(s, s);
+                } else {
+                    GreenLogger.log("  Input handler in inputhandlers.txt '" + s + "' not found, skipping...");
+                }
+            }
+
+        } catch (IOException e) {
+            GreenLogger.log("Unexpected error when reading yaml/input_handler/inputhandlers.txt or validating associated input handler config.");
+            GreenLogger.log(e);
+        }
 
         controllerLayoutChooser.setDefaultOption(factory.getInputHandlerName(), factory.getInputHandlerName());
 

@@ -376,10 +376,9 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
     public void autoBalance(ChassisSpeeds fieldRelativeChassisSpeeds) {
         double pitch = pigeon.getPitchValue();
         double roll = pigeon.getRollValue();
-        double throttle = 0;
-        double strafe = 0;
-        var heading = Constants.EmptyRotation2d;
-
+        double throttle;
+        double strafe;
+        
         double maxFlatRange = Constants.autoBalanceThresholdDegrees;
         double correction = (getInitialYaw() - pigeon.getYawValue()) / 1440;
 
