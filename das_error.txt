@@ -1,0 +1,2 @@
+﻿﻿﻿﻿﻿﻿﻿﻿ERROR ﻿﻿ -10021 ﻿﻿ Device firmware could not be retrieved. Check that the device is running v6 firmware, the device ID is correct, the specified CAN bus is correct, and the device is powered. ﻿﻿ talon fx 1 (rio) ﻿﻿﻿
+﻿﻿﻿﻿﻿﻿﻿﻿ERROR ﻿﻿ -10021 ﻿﻿ Device firmware could not be retrieved. Check that the device is running v6 firmware, the device ID is correct, the specified CAN bus is correct, and the device is powered. ﻿﻿ talon fx 2 (rio) ﻿﻿﻿

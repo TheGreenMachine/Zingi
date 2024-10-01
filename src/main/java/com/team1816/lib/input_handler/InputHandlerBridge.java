@@ -88,7 +88,6 @@ public class InputHandlerBridge {
                     GreenLogger.log("  Input handler in inputhandlers.txt '" + s + "' not found, skipping...");
                 }
             }
-
         } catch (IOException e) {
             GreenLogger.log("Unexpected error when reading yaml/input_handler/inputhandlers.txt or validating associated input handler config.");
             GreenLogger.log(e);
