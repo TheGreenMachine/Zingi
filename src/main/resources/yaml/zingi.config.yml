@@ -34,10 +34,10 @@ subsystems:
         invertMotor: false
     pidConfig:
       slot0:
-        kP: 0.1 # 0.18
-        kI: 0.0001 # 0.018
-        kD: 4.0 # 3.6
-        kF: 0.0475813
+        kP: 1.6 # 0.18
+        kI: 0.001 # 0.018
+        kD: 15.0 # 3.6
+        kF: 0.871875
     constants:
       maxVelTicks100ms: 40275.7
       encPPR: 22220.8
