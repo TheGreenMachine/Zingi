@@ -5,32 +5,32 @@ subsystems:
             leftMain:
                 motorType: TalonFX
                 motorName: leftMain
-                id: 2
+                id: 1
                 invertMotor: true
             leftFollower:
                 motorType: TalonFX
                 motorName: leftFollower
-                id: 3
+                id: -1
                 invertMotor: false
             leftFollowerTwo:
                 motorType: TalonFX
                 motorName: leftFollowerTwo
-                id: 4
+                id: -1
                 invertMotor: false
             rightMain:
                 motorType: TalonFX
                 motorName: rightMain
-                id: 5
+                id: 2
                 invertMotor: false
             rightFollower:
                 motorType: TalonFX
                 motorName: rightFollower
-                id: 6
+                id: -1
                 invertMotor: false
             rightFollowerTwo:
                 motorType: TalonFX
                 motorName: rightFollowerTwo
-                id: 7
+                id: -1
                 invertMotor: false
         pidConfig:
             slot0:
@@ -76,7 +76,7 @@ infrastructure:
     pcmIsRev: false
     pcmId: -1
     ## Pigeon ##
-    pigeonId: 32
+    pigeonId: 3
     isPigeon2: true
 inputHandler: competition
 constants:
