@@ -58,25 +58,25 @@ public class Constants {
     public static final double fieldCenterY = 8.211 / 2.0;
     public static final double fieldCenterX = 16.542 / 2.0;
     public static final Pose2d fieldCenterPose = new Pose2d(
-        fieldCenterX,
-        fieldCenterY,
-        EmptyRotation2d
+            fieldCenterX,
+            fieldCenterY,
+            EmptyRotation2d
     );
     public static final Pose2d targetPos = new Pose2d(
-        fieldCenterX,
-        fieldCenterY,
-        EmptyRotation2d
+            fieldCenterX,
+            fieldCenterY,
+            EmptyRotation2d
     );
     public static final Pose2d kDefaultZeroingPose = new Pose2d(
-        0.5,
-        fieldCenterY,
-        EmptyRotation2d
+            0.5,
+            fieldCenterY,
+            EmptyRotation2d
     );
 
     public static final Pose2d kFlippedZeroingPose = new Pose2d(
-        fieldCenterX * 2 - .5,
-        fieldCenterY,
-        Rotation2d.fromDegrees(180)
+            fieldCenterX * 2 - .5,
+            fieldCenterY,
+            Rotation2d.fromDegrees(180)
     );
 
 
@@ -92,9 +92,13 @@ public class Constants {
             -0.369,
             0,
             Constants.kCameraHeightMeters,
-            new Rotation3d(Math.PI,-0.44,Math.PI)
+            new Rotation3d(Math.PI, -0.44, Math.PI)
     );
 
+    public static final Translation2d kTurretMountingOffset = new Translation2d(
+            -0.12065,
+            0.13335
+    );
     public static final double chargeStationThresholdXMinBlue = 2.4;
     public static final double chargeStationThresholdXMaxBlue = 5.1;
     public static final double chargeStationThresholdXMinRed = 11.4;
@@ -122,18 +126,25 @@ public class Constants {
      * Camera characterization
      */
     public static final double kCameraMountingAngleY = 0; // degrees
+    public static final double kTurretZedRadius = Units.inchesToMeters(7); // meters
 
     public static final double kLoggingDiskPartitionRatio = 0.25; // percent of storage space allotted for logging
     public static final boolean kLoggingRobot = factory.getConstant("logRobot", 1) > 0;
     public static final boolean kLoggingDrivetrain = factory.getConstant("logDrivetrain", 1) > 0 && kLoggingRobot;
 
     public static final double kBallEjectionDuration = factory.getConstant(
-        "shooter",
-        "ballEjectionDuration",
-        1d,
+            "shooter",
+            "ballEjectionDuration",
+            1d,
             false
     );
     public static final boolean kUseVision = factory.getConstant("usingVision", 0) > 0;
+
+    /**
+     * Balancing characterization
+     */
+    public static final double autoBalanceThresholdDegrees = factory.getConstant("drivetrain", "autoBalanceThreshold", 2, false);
+    public static final double autoBalanceDivider = factory.getConstant("drivetrain", "autoBalanceDivider", 30, false);
 
     /**
      * Autonomous
@@ -146,3 +157,4 @@ public class Constants {
      */
     public static final ShuffleboardTab kSimWindow = Shuffleboard.getTab("Simulation");
 
+}

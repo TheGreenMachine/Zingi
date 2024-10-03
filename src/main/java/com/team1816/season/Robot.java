@@ -15,15 +15,10 @@ import com.team1816.lib.subsystems.drive.Drive;
 import com.team1816.lib.subsystems.vision.Camera;
 import com.team1816.lib.util.Util;
 import com.team1816.lib.util.logUtil.GreenLogger;
-import com.team1816.lib.variableInputs.VariableInput;
 import com.team1816.season.auto.AutoModeManager;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.states.Orchestrator;
 import com.team1816.season.states.RobotState;
-import com.team1816.season.subsystems.Climber;
-import com.team1816.season.subsystems.Shooter;
-import com.team1816.season.subsystems.Collector;
-import com.team1816.season.subsystems.NoraSubsystem;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.*;
@@ -530,8 +525,6 @@ public class Robot extends TimedRobot {
                     -inputHandler.getActionAsDouble("rotation")
             );
         }
-
-        orchestrator.autoSetCollectorState();
     }
 
     /**

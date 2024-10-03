@@ -7,10 +7,6 @@ import com.team1816.lib.subsystems.drive.SwerveDrive;
 import com.team1816.lib.util.visionUtil.VisionPoint;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.configuration.FieldConfig;
-import com.team1816.season.subsystems.Climber;
-import com.team1816.season.subsystems.NoraSubsystem;
-import com.team1816.season.subsystems.Shooter;
-import com.team1816.season.subsystems.Collector;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -232,15 +228,15 @@ public class RobotState {
      */
     public synchronized Pose2d getEstimatedFieldToTurretPos() {
         return new Pose2d(
-            extrapolatedFieldToVehicle
-                .transformBy(
-                    new Transform2d(
-                        Constants.kTurretMountingOffset,
-                        Constants.EmptyRotation2d
-                    )
-                )
-                .getTranslation(),
-            getLatestFieldToTurret()
+                extrapolatedFieldToVehicle
+                        .transformBy(
+                                new Transform2d(
+                                        Constants.kTurretMountingOffset,
+                                        Constants.EmptyRotation2d
+                                )
+                        )
+                        .getTranslation(),
+                getLatestFieldToTurret()
         );
     }
 

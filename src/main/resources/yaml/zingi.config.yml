@@ -2,31 +2,42 @@ subsystems:
     drivetrain:
         implemented: true
         motors:
-            FLDr:
+            leftMain:
                 motorType: TalonFX
-                motorName: FLDr
-                id: 1
-                invertMotor: false
-            FRDr:
-                motorType: TalonFX
-                motorName: FRDr
+                motorName: leftMain
                 id: 2
                 invertMotor: true
-            RLDr:
+            leftFollower:
                 motorType: TalonFX
-                motorName: BLDr
+                motorName: leftFollower
                 id: 3
-                invertMotor: true
-            RRDr:
+                invertMotor: false
+            leftFollowerTwo:
                 motorType: TalonFX
-                motorName: BRDr
+                motorName: leftFollowerTwo
                 id: 4
-                invertMotor: true
-        canCoders:
-            FLEnc: 20
-            FREnc: 21
-            RLEnc: 22
-            RREnc: 23
+                invertMotor: false
+            rightMain:
+                motorType: TalonFX
+                motorName: rightMain
+                id: 5
+                invertMotor: false
+            rightFollower:
+                motorType: TalonFX
+                motorName: rightFollower
+                id: 6
+                invertMotor: false
+            rightFollowerTwo:
+                motorType: TalonFX
+                motorName: rightFollowerTwo
+                id: 7
+                invertMotor: false
+        pidConfig:
+            slot0:
+                kP: 0.1 # 0.18
+                kI: 0.0001 # 0.018
+                kD: 4.0 # 3.6
+                kF: 0.0475813
         constants:
             ## Positional Configurations ##
             openLoopRampRate: 0.1
@@ -39,11 +50,11 @@ subsystems:
             maxRotVelClosedLoop: 2 # Pi radians/sec
             trackWidth: 22.75 # inches
             wheelbaseLength: 22.75 # inches
-            maxVelOpenLoop: 3 # meters/s
+            maxVelOpenLoop: 3000 # meters/s
             maxVel12VMPS: 5.2
             maxVelPathFollowing: 3.1 # meters/s
             maxAccel: 1.5 # meters/s^2
-            isDemoMode: 1
+            isDemoMode: 0
             ## Control Configurations ##
             slowModeScalar: 0.4
             turboModeScalar: 1.73
@@ -67,7 +78,7 @@ infrastructure:
     ## Pigeon ##
     pigeonId: 32
     isPigeon2: true
-inputHandler: drivercentric # the default input handler
+inputHandler: competition
 constants:
     zeroingButton: 9 # channel of DIO port
     enableMusic: 0

@@ -82,12 +82,12 @@ public class InputHandlerBridge {
 
     @Inject
     public InputHandlerBridge() {
-        String[] inputHandlers = Objects.requireNonNull(new File("src/main/resources/yaml/input_handler").list());
-
-        for(int i = 0; i < inputHandlers.length; i++){
-            if(inputHandlers[i].endsWith(".input_handler.config.yml"))
-                controllerLayoutChooser.addOption(inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()), inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()));
-        }
+//        String[] inputHandlers = Objects.requireNonNull(new File("src/main/resources/yaml/input_handler").list());
+//
+//        for(int i = 0; i < inputHandlers.length; i++){
+//            if(inputHandlers[i].endsWith(".input_handler.config.yml"))
+//                controllerLayoutChooser.addOption(inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()), inputHandlers[i].substring(0, inputHandlers[i].length()-".input_handler.config.yml".length()));
+//        }
 
         controllerLayoutChooser.setDefaultOption(factory.getInputHandlerName(), factory.getInputHandlerName());
 
