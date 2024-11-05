@@ -1,6 +1,7 @@
 package com.team1816.lib.hardware.factory;
 
 import com.team1816.lib.hardware.RobotConfiguration;
+import edu.wpi.first.wpilibj.DriverStation;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -36,12 +37,16 @@ public class YamlConfig {
     }
 
     static RobotConfiguration loadFromRaw(InputStream input) {
-        Representer representer = new Representer(new DumperOptions());
-        representer.getPropertyUtils().setSkipMissingProperties(true);
-        Yaml yaml = new Yaml(new Constructor(RobotConfiguration.class, new LoaderOptions()), representer);
-        yaml.setBeanAccess(BeanAccess.FIELD);
-
-        return yaml.load(input);
+        try {
+            Representer representer = new Representer(new DumperOptions());
+            representer.getPropertyUtils().setSkipMissingProperties(true);
+            Yaml yaml = new Yaml(new Constructor(RobotConfiguration.class, new LoaderOptions()), representer);
+            yaml.setBeanAccess(BeanAccess.FIELD);
+            return yaml.load(input);
+        } catch (Exception e) {
+            DriverStation.reportError("Error in Yaml is ROBOT_NAME set?", false);
+        }
+        return null;
     }
 
     @Override
