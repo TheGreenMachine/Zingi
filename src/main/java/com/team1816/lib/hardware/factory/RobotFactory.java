@@ -50,7 +50,7 @@ public class RobotFactory {
     private RobotConfiguration config;
 
     public RobotFactory() {
-        var robotName = System.getenv("ROBOT_NAME");
+        var robotName = System.getenv("ROBOT_NAME").toLowerCase();
         if (robotName == null) {
             robotName = "default";
             DriverStation.reportWarning(
