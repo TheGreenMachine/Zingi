@@ -80,19 +80,19 @@ public class Constants {
     );
 
 
-    public static final double kCameraHeightMeters = 0.601;
+    public static final double kCameraHeightMeters = Units.inchesToMeters(26);
 
     public static final Pose2d kCameraMountingOffset = new Pose2d(
-            -0.369,
+            Units.inchesToMeters(14),
             0,
-            Rotation2d.fromRadians(Math.PI)
+            Rotation2d.fromRadians(0)
     );
 
     public static final Transform3d kCameraMountingOffset3D = new Transform3d(
-            -0.369,
+            Units.inchesToMeters(14),
             0,
             Constants.kCameraHeightMeters,
-            new Rotation3d(Math.PI, -0.44, Math.PI)
+            new Rotation3d(0, 0, 0)
     );
 
     public static final Translation2d kTurretMountingOffset = new Translation2d(

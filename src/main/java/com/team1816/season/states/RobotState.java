@@ -4,11 +4,13 @@ import com.google.inject.Singleton;
 import com.team1816.lib.auto.Color;
 import com.team1816.lib.auto.PathFinder;
 import com.team1816.lib.subsystems.drive.SwerveDrive;
+import com.team1816.lib.subsystems.drive.TankDrive;
 import com.team1816.lib.util.visionUtil.VisionPoint;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.configuration.FieldConfig;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -36,6 +38,7 @@ public class RobotState {
     public final Field2d field = new Field2d();
     public Color allianceColor = Color.BLUE;
     public Pose2d fieldToVehicle = Constants.EmptyPose2d;
+    public Pose2d visionFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d driverRelativeFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d extrapolatedFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d target = Constants.fieldCenterPose;
@@ -57,7 +60,19 @@ public class RobotState {
                             new SwerveModulePosition(),
                             new SwerveModulePosition()
                     },
-                    new Pose2d() //TODO figure out what to initialize this to
+                    new Pose2d(), //TODO figure out what to initialize this to
+                    VecBuilder.fill(0.1, 0.1, 0.1),
+                    VecBuilder.fill(1, 1, 1)
+            );
+    public DifferentialDrivePoseEstimator tankEstimator =
+            new DifferentialDrivePoseEstimator(
+                    TankDrive.tankKinematics,
+                    Constants.EmptyRotation2d,
+                    0,
+                    0,
+                    new Pose2d(),
+                    VecBuilder.fill(0.1, 0.1, 0.1),
+                    VecBuilder.fill(1, 1, 1)
             );
 
     /**

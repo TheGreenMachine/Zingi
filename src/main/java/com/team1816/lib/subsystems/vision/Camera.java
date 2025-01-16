@@ -2,6 +2,7 @@ package com.team1816.lib.subsystems.vision;
 
 import com.team1816.lib.Infrastructure;
 import com.team1816.lib.subsystems.Subsystem;
+import com.team1816.lib.util.logUtil.GreenLogger;
 import com.team1816.season.configuration.Constants;
 import com.team1816.season.configuration.FieldConfig;
 import com.team1816.season.states.RobotState;
@@ -10,16 +11,19 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.util.datalog.*;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jakarta.inject.Inject;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -30,7 +34,7 @@ public class Camera extends Subsystem{
      * Properties
      */
     private static final String NAME = "camera";
-    private static final String CAM = "Arducam_OV9281_USB_Camera";
+    private static final String CAM = "Arducam_OV9281_USB_Camera (1)";
     public static final AprilTagFieldLayout kTagLayout =
             AprilTagFields.kDefaultField.loadAprilTagLayoutField();
     private static final Transform3d robotToCam = Constants.kCameraMountingOffset3D;
@@ -50,15 +54,23 @@ public class Camera extends Subsystem{
         cam.setDriverMode(false);
 
         if (RobotBase.isSimulation()) {
-            cameraSim = new PhotonCameraSim(cam);
+            var cameraProp = new SimCameraProperties();
+            cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(90));
+            cameraProp.setCalibError(0.35, 0.10);
+            cameraProp.setFPS(15);
+            cameraProp.setAvgLatencyMs(50);
+            cameraProp.setLatencyStdDevMs(15);
+            cameraSim = new PhotonCameraSim(cam, cameraProp);
             cameraSim.enableDrawWireframe(true);
-            cameraSim.setWireframeResolution(1);
             visionSim = new VisionSystemSim("SimVision");
             visionSim.addCamera(cameraSim, Constants.kCameraMountingOffset3D);
             visionSim.addAprilTags(kTagLayout);
         }
         photonEstimator = new PhotonPoseEstimator(kTagLayout, PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, robotToCam);
         photonEstimator.setMultiTagFallbackStrategy(PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY);
+        if (Constants.kLoggingRobot) {
+            GreenLogger.addPeriodicLog(StructLogEntry.create(DataLogManager.getLog(), "Camera/currentVisionEstimatedPose", Pose2d.struct), this::getEstimatedGlobalPose);
+        }
     }
 
     public PhotonPipelineResult getLatestResult() {

@@ -17,9 +17,12 @@ import com.team1816.lib.util.Util;
 import com.team1816.lib.util.logUtil.GreenLogger;
 import com.team1816.season.auto.AutoModeManager;
 import com.team1816.season.configuration.Constants;
+import com.team1816.season.configuration.FieldConfig;
 import com.team1816.season.states.Orchestrator;
 import com.team1816.season.states.RobotState;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -267,6 +270,13 @@ public class Robot extends TimedRobot {
                     drive::setSlowMode
             );
 
+            inputHandler.listenAction(
+                    "testingOffsetPose",
+                    ActionState.PRESSED,
+                    () ->
+                            drive.resetVisionEstimatedPose(robotState.visionFieldToVehicle.plus(new Transform2d(new Translation2d(1.0, 1.0), new Rotation2d(0.17 * 2 * Math.PI))))
+            );
+
             //Buttonboard commands
 
 
@@ -410,6 +420,11 @@ public class Robot extends TimedRobot {
             Robot.robotDt = getLastRobotLoop();
             loopStart = Timer.getFPGATimestamp();
 
+            orchestrator.updatePoseWithVisionData();
+
+            if (RobotBase.isSimulation()) {
+                FieldConfig.field.getObject("EstimatedRobot").setPose(robotState.visionFieldToVehicle);
+            }
 
             if (Constants.kLoggingRobot) {
                 looperLogger.append(looperDt);

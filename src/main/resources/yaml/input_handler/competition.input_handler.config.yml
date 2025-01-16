@@ -9,7 +9,7 @@ driver:
             horizontal: rotation
     buttonpad:
         b: brakeMode
-        x: ampPivot
+        x: testingOffsetPose
         a: collectorOuttake
         y: shootPivot
     axes:
