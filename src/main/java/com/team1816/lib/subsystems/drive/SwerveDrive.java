@@ -95,7 +95,7 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
     /**
      * Odometry variables
      */
-    private final SwerveDriveOdometry swerveOdometry;
+    private final SwerveDriveOdometry simActualSwerveOdometry;
     private final SwerveDrivePoseEstimator swerveEstimator;
     private final SwerveDriveHelper swerveDriveHelper = new SwerveDriveHelper();
 
@@ -137,7 +137,7 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
         actualModulePositions[kBackLeft] = new SwerveModulePosition();
         actualModulePositions[kBackRight] = new SwerveModulePosition();
 
-        swerveOdometry =
+        simActualSwerveOdometry =
             new SwerveDriveOdometry(
                 swerveKinematics,
                 Constants.EmptyRotation2d,
@@ -216,7 +216,7 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
         }
         actualHeading = Rotation2d.fromDegrees(pigeon.getYawValue());
 
-        swerveOdometry.update(actualHeading, actualModulePositions);
+        simActualSwerveOdometry.update(actualHeading, actualModulePositions);
         swerveEstimator.update(actualHeading, actualModulePositions);
 
         if (Constants.kLoggingDrivetrain) {
@@ -348,8 +348,8 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
      */
     @Override
     public void updateRobotState() {
-        robotState.fieldToVehicle = swerveOdometry.getPoseMeters();
-        robotState.visionFieldToVehicle = swerveEstimator.getEstimatedPosition();
+        robotState.simActualFieldToVehicle = simActualSwerveOdometry.getPoseMeters();
+        robotState.fieldToVehicle = swerveEstimator.getEstimatedPosition();
         robotState.driverRelativeFieldToVehicle = new Pose2d( // for inputs ONLY
             robotState.fieldToVehicle.getTranslation(),
             (robotState.allianceColor == Color.BLUE && Constants.fieldSymmetry == Symmetry.AXIS) ? robotState.fieldToVehicle.getRotation() : robotState.fieldToVehicle.getRotation().rotateBy(Rotation2d.fromDegrees(180))
@@ -496,19 +496,9 @@ public class SwerveDrive extends Drive implements EnhancedSwerveDrive, PidProvid
     @Override
     public void resetOdometry(Pose2d pose) {
         actualHeading = Rotation2d.fromDegrees(pigeon.getYawValue());
-        swerveOdometry.resetPosition(actualHeading, actualModulePositions, pose);
-        swerveOdometry.update(actualHeading, actualModulePositions);
-        updateRobotState();
-    }
-
-    /**
-     * Reset the vision estimated pose of the swerve drive on the field
-     *
-     * @param pose New robot pose
-     */
-    public void resetVisionEstimatedPose(Pose2d pose) {
-        actualHeading = Rotation2d.fromDegrees(pigeon.getYawValue());
         swerveEstimator.resetPosition(actualHeading, actualModulePositions, pose);
+        swerveEstimator.update(actualHeading, actualModulePositions);
+        updateRobotState();
     }
 
     /**

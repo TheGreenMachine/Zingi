@@ -114,15 +114,15 @@
         "April Tags": {
           "arrows": false,
           "color": [
-            0.800000011920929,
-            0.20000000298023224,
             1.0,
+            0.0,
+            0.0,
             255.0
           ],
-          "length": 0.05000000074505806,
+          "image": "C:\\Users\\henry\\photonvision\\photonlib-java-examples\\poseest\\tag-green.png",
+          "length": 0.6000000238418579,
           "style": "Box/Image",
-          "weight": 2.5,
-          "width": 0.3499999940395355
+          "width": 0.5
         },
         "EstimatedRobot": {
           "arrowColor": [
@@ -208,6 +208,56 @@
         }
       },
       "/SmartDashboard/Robot color": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/VisionSystemSim-SimVision/Sim Field": {
+        "Robot": {
+          "arrowColor": [
+            1.0,
+            1.0,
+            1.0,
+            255.0
+          ],
+          "arrowWeight": 2.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0,
+            255.0
+          ],
+          "weight": 2.0
+        },
+        "apriltag": {
+          "arrows": false,
+          "image": "C:\\Users\\henry\\photonvision\\photonlib-java-examples\\poseest\\tag-green.png",
+          "length": 0.6000000238418579,
+          "width": 0.5
+        },
+        "bottom": 1476,
+        "cameras": {
+          "arrowColor": [
+            0.29411765933036804,
+            1.0,
+            0.9921568632125854,
+            255.0
+          ],
+          "arrowSize": 19,
+          "arrowWeight": 3.0,
+          "style": "Hidden",
+          "weight": 1.0
+        },
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "visibleTargetPoses": {
+          "image": "C:\\Users\\henry\\photonvision\\photonlib-java-examples\\poseest\\tag-blue.png",
+          "length": 0.4000000059604645,
+          "width": 0.5
+        },
+        "width": 16.541748046875,
         "window": {
           "visible": true
         }

@@ -559,13 +559,6 @@ public abstract class Drive
      */
     public abstract void resetOdometry(Pose2d pose);
 
-    /**
-     * Reset the vision estimated pose of the robot on the field
-     *
-     * @param pose New robot pose
-     */
-    public abstract void resetVisionEstimatedPose(Pose2d pose);
-
     public void resetHeading(Rotation2d rotation) {}
 
     public void updateOdometryWithVision(Pose2d estimatedPose2D, double timestamp, Matrix<N3, N1> stdDevs) {

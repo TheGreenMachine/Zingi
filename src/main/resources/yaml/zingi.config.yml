@@ -65,7 +65,7 @@ subsystems:
     camera:
         implemented: true
         constants:
-            useMultiTargetOdometry: 0
+            usingVisionPoseCorrection: 1
 infrastructure:
     canBusName: highSpeed
     ## Power Distribution ##

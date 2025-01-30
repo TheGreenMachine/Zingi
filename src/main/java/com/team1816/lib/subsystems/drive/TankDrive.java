@@ -47,7 +47,7 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
     /**
      * Odometry
      */
-    private DifferentialDriveOdometry tankOdometry;
+    private DifferentialDriveOdometry simActualTankOdometry;
     private final DifferentialDrivePoseEstimator tankEstimator;
     public static final DifferentialDriveKinematics tankKinematics = new DifferentialDriveKinematics(
         kDriveWheelTrackWidthMeters
@@ -115,7 +115,7 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
 
         setOpenLoop(DriveSignal.NEUTRAL);
 
-        tankOdometry =
+        simActualTankOdometry =
             new DifferentialDriveOdometry(
                 getActualHeading(),
                 leftActualDistance,
@@ -193,7 +193,7 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
         }
         actualHeading = Rotation2d.fromDegrees(pigeon.getYawValue());
 
-        tankOdometry.update(actualHeading, leftActualDistance, rightActualDistance);
+        simActualTankOdometry.update(actualHeading, leftActualDistance, rightActualDistance);
         tankEstimator.update(actualHeading, leftActualDistance, rightActualDistance);
 
         if (Constants.kLoggingDrivetrain) {
@@ -264,28 +264,14 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
      */
     @Override
     public void resetOdometry(Pose2d pose) {
-        tankOdometry.resetPosition(
-            getActualHeading(),
-            leftActualDistance,
-            rightActualDistance,
-            pose
-        );
-        tankOdometry.update(actualHeading, leftActualDistance, rightActualDistance);
-        updateRobotState();
-    }
-
-    /**
-     * Reset the vision estimated pose of the tank drive on the field
-     *
-     * @param pose New robot pose
-     */
-    public void resetVisionEstimatedPose(Pose2d pose) {
         tankEstimator.resetPosition(
                 getActualHeading(),
                 leftActualDistance,
                 rightActualDistance,
                 pose
         );
+        tankEstimator.update(actualHeading, leftActualDistance, rightActualDistance);
+        updateRobotState();
     }
 
     public void updateOdometryWithVision(Pose2d estimatedPose2D, double timestamp, Matrix<N3, N1> stdDevs) {
@@ -299,8 +285,8 @@ public class TankDrive extends Drive implements DifferentialDrivetrain {
      */
     @Override
     public void updateRobotState() {
-        robotState.fieldToVehicle = tankOdometry.getPoseMeters();
-        robotState.visionFieldToVehicle = tankEstimator.getEstimatedPosition();
+        robotState.simActualFieldToVehicle = simActualTankOdometry.getPoseMeters();
+        robotState.fieldToVehicle = tankEstimator.getEstimatedPosition();
 
         var cs = new ChassisSpeeds(
             chassisSpeed.vxMetersPerSecond,

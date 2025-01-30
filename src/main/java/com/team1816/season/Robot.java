@@ -274,7 +274,7 @@ public class Robot extends TimedRobot {
                     "testingOffsetPose",
                     ActionState.PRESSED,
                     () ->
-                            drive.resetVisionEstimatedPose(robotState.visionFieldToVehicle.plus(new Transform2d(new Translation2d(1.0, 1.0), new Rotation2d(0.17 * 2 * Math.PI))))
+                            drive.resetOdometry(robotState.fieldToVehicle.plus(new Transform2d(new Translation2d(1.0, 1.0), new Rotation2d(0.17 * 2 * Math.PI))))
             );
 
             //Buttonboard commands
@@ -423,7 +423,7 @@ public class Robot extends TimedRobot {
             orchestrator.updatePoseWithVisionData();
 
             if (RobotBase.isSimulation()) {
-                FieldConfig.field.getObject("EstimatedRobot").setPose(robotState.visionFieldToVehicle);
+                FieldConfig.field.getObject("SimActualRobotPosition").setPose(robotState.simActualFieldToVehicle);
             }
 
             if (Constants.kLoggingRobot) {

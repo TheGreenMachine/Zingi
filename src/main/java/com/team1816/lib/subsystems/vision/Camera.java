@@ -47,6 +47,11 @@ public class Camera extends Subsystem{
     private PhotonCameraSim cameraSim;
     private final PhotonPoseEstimator photonEstimator;
 
+    /**
+     * Logging
+     */
+    protected StructLogEntry<Pose2d> visionPoseLogger;
+
     @Inject
     public Camera(Infrastructure inf, RobotState rs){
         super(NAME, inf, rs);
@@ -69,7 +74,7 @@ public class Camera extends Subsystem{
         photonEstimator = new PhotonPoseEstimator(kTagLayout, PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, robotToCam);
         photonEstimator.setMultiTagFallbackStrategy(PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY);
         if (Constants.kLoggingRobot) {
-            GreenLogger.addPeriodicLog(StructLogEntry.create(DataLogManager.getLog(), "Camera/currentVisionEstimatedPose", Pose2d.struct), this::getEstimatedGlobalPose);
+            visionPoseLogger = StructLogEntry.create(DataLogManager.getLog(), "Camera/visionPose", Pose2d.struct);
         }
     }
 
@@ -102,12 +107,8 @@ public class Camera extends Subsystem{
         return true;
     }
 
-    public EstimatedRobotPose getEstimatedGlobalPose() {
-        return robotState.currentVisionEstimatedPose;
-    }
-
     /**
-     * The standard deviations of the estimated pose from {@link #getEstimatedGlobalPose()}, for use
+     * The standard deviations of the estimated pose from {@link #updateEstimatedGlobalPose()}, for use
      * with {@link edu.wpi.first.math.estimator.SwerveDrivePoseEstimator SwerveDrivePoseEstimator}.
      * This should only be used when there are targets visible.
      *
@@ -140,7 +141,7 @@ public class Camera extends Subsystem{
     @Override
     public void readFromHardware() {
         if (RobotBase.isSimulation()) {
-            visionSim.update(robotState.fieldToVehicle);
+            visionSim.update(robotState.simActualFieldToVehicle);
         }
         robotState.currentCamFind = updateEstimatedGlobalPose();
 
@@ -149,7 +150,9 @@ public class Camera extends Subsystem{
             FieldConfig.field.getObject("vision").setPose(robotState.currentVisionEstimatedPose.estimatedPose.toPose2d());
         }
 
-
+        if (Constants.kLoggingDrivetrain && robotState.currentVisionEstimatedPose != null) {
+            visionPoseLogger.append(robotState.currentVisionEstimatedPose.estimatedPose.toPose2d());
+        }
 
     }
 

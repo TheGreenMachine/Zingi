@@ -38,7 +38,7 @@ public class RobotState {
     public final Field2d field = new Field2d();
     public Color allianceColor = Color.BLUE;
     public Pose2d fieldToVehicle = Constants.EmptyPose2d;
-    public Pose2d visionFieldToVehicle = Constants.EmptyPose2d;
+    public Pose2d simActualFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d driverRelativeFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d extrapolatedFieldToVehicle = Constants.EmptyPose2d;
     public Pose2d target = Constants.fieldCenterPose;
